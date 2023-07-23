@@ -1,5 +1,5 @@
 name: weight_tracking_app
-description: A new Flutter project.
+description: Weight Tracking App (WIP).
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -30,6 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  #DEPENDENCY INJECTION
+  get_it: ^7.6.0
+
+  #STATE MANAGER
+  mobx: ^2.2.0
+
+  #DATABASE
+  isar: ^3.1.0+1
 
 
   # The following adds the Cupertino Icons font to your application.
