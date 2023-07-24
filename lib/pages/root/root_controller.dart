@@ -1,15 +1,13 @@
 import 'package:isar/isar.dart';
 import 'package:mobx/mobx.dart';
-import 'package:weight_tracking_app/data/injections/injections.dart';
 import 'package:weight_tracking_app/data/user.dart';
-import 'package:weight_tracking_app/globals.dart';
 
 part 'root_controller.g.dart';
 
 class RootController = _RootControllerBase with _$RootController;
 
 abstract class _RootControllerBase with Store {
-  late final Isar _isar;
+  final Isar _isar;
 
   @observable
   bool mustCreateUser = false;
@@ -27,12 +25,10 @@ abstract class _RootControllerBase with Store {
     mainUser = user;
   }
 
+  _RootControllerBase(this._isar);
+
   void init() {
-    //FIXME: REWORK SELF INJECTION
-    DependencyInjections.inject().then((v) {
-      _isar = getIt.get<Isar>();
-      loadMainUser();
-    });
+    loadMainUser();
   }
 
   void loadMainUser() {

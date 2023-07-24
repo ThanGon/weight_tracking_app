@@ -5,10 +5,6 @@ import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/pages/root/root_controller.dart';
 
 class DependencyInjections {
-  static void injectRoot() {
-    getIt.registerLazySingleton<RootController>(() => RootController());
-  }
-
   static Future<void> inject() async {
     await _startIsar();
     _startControllers();
@@ -23,5 +19,8 @@ class DependencyInjections {
     });
   }
 
-  static void _startControllers() {}
+  static void _startControllers() {
+    getIt.registerLazySingleton<RootController>(
+        () => RootController(getIt.get<Isar>()));
+  }
 }
