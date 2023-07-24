@@ -36,10 +36,16 @@ dependencies:
 
   #STATE MANAGER
   mobx: ^2.2.0
+  flutter_mobx: ^2.0.6+5
 
   #DATABASE
   isar: ^3.1.0+1
 
+  #NAVIGATION ROUTER
+  go_router: ^10.0.0
+
+  #DATA MODEL
+  freezed: ^2.4.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
