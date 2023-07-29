@@ -13,14 +13,14 @@ class DependencyInjections {
   static Future<void> _startIsar() {
     return Future(() async {
       final dir = await getApplicationDocumentsDirectory();
-      getIt.registerSingletonAsync<Isar>(
+      Globals.getIt.registerSingletonAsync<Isar>(
           () => Isar.open([UserSchema], directory: dir.path));
-      await getIt.isReady<Isar>();
+      await Globals.getIt.isReady<Isar>();
     });
   }
 
   static void _startControllers() {
-    getIt.registerLazySingleton<RootController>(
-        () => RootController(getIt.get<Isar>()));
+    Globals.getIt.registerLazySingleton<RootController>(
+        () => RootController(Globals.getIt.get<Isar>()));
   }
 }

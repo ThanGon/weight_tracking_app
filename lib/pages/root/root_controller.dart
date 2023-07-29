@@ -1,12 +1,13 @@
 import 'package:isar/isar.dart';
 import 'package:mobx/mobx.dart';
+import 'package:weight_tracking_app/base/base_controller.dart';
 import 'package:weight_tracking_app/data/user.dart';
 
 part 'root_controller.g.dart';
 
 class RootController = _RootControllerBase with _$RootController;
 
-abstract class _RootControllerBase with Store {
+abstract class _RootControllerBase extends BaseController with Store {
   final Isar _isar;
 
   @observable
@@ -41,13 +42,15 @@ abstract class _RootControllerBase with Store {
       _isar.users.where().anyId().findAll().then((users) {
         if (users.isEmpty) {
           flagMustCreateUser();
+          throw Exception("Teste");
         } else {
           setMainUser(users.last);
         }
+      }).catchError((error) {
+        errorSnackbar(error.toString());
       });
-    } catch (ex) {
-      print(ex);
-      //TODO: IMPLEMENT ERROR HANDLING WITH SNACKBAR
+    } catch (error) {
+      errorSnackbar(error.toString());
     }
   }
 }

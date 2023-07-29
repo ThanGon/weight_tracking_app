@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_tracking_app/data/injections/injections.dart';
+import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/navigation/router.dart';
 
 void main() async {
@@ -18,6 +19,7 @@ class WeightTracker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      scaffoldMessengerKey: Globals.scaffoldMessengerKey,
       title: 'Weight Tracker',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),

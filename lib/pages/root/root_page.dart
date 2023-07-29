@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/navigation/go_navigator.dart';
 import 'package:weight_tracking_app/navigation/routes.dart';
@@ -14,7 +13,7 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> with GoNavigator {
-  final controller = getIt.get<RootController>();
+  final controller = Globals.getIt.get<RootController>();
 
   @override
   void initState() {
@@ -25,7 +24,7 @@ class _RootPageState extends State<RootPage> with GoNavigator {
 
   @override
   void dispose() {
-    getIt.resetLazySingleton<RootController>();
+    Globals.getIt.resetLazySingleton<RootController>();
 
     super.dispose();
   }
