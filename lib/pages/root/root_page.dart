@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:weight_tracking_app/controllers/root/root_controller.dart';
 import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/navigation/go_navigator.dart';
 import 'package:weight_tracking_app/navigation/routes.dart';
-import 'package:weight_tracking_app/pages/root/root_controller.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -35,9 +35,9 @@ class _RootPageState extends State<RootPage> with GoNavigator {
       builder: (context) {
         if (controller.mustCreateUser) {
           go(context, Uri(path: RoutesNavigation.setup));
-          //TODO: IMPLEMENT SETUP PAGE
         }
         if (controller.mainUser != null) {
+          go(context, Uri(path: RoutesNavigation.home));
           //TODO: IMPLEMENT HOME PAGE
         }
         return const Center(child: CircularProgressIndicator());

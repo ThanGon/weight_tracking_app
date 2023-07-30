@@ -22,6 +22,7 @@ class WeightTracker extends StatelessWidget {
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
       title: 'Weight Tracker',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(centerTitle: true),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
       ),
