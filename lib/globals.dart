@@ -7,4 +7,8 @@ class Globals {
 
 // GLOBAL KEY FOR HANDLING SCAFFOLD MESSAGES (USED MOSTLY FOR SNACKBARS)
   static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
+
+  static final shellNavigatorKey = GlobalKey<NavigatorState>();
 }

@@ -7,7 +7,7 @@ class Routes {
 }
 
 class RoutesNavigation {
-  static const String setup = Routes.root + "setup";
+  static const String setup = Routes.root + Routes.setup;
 
-  static const String home = Routes.root + "home";
+  static const String home = Routes.root + Routes.home;
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weight_tracking_app/controllers/setup/setup_controller.dart';
 import 'package:weight_tracking_app/globals.dart';
-import 'package:weight_tracking_app/navigation/go_navigator.dart';
-import 'package:weight_tracking_app/navigation/routes.dart';
 
 class SetupPage extends StatefulWidget {
   const SetupPage({super.key});
@@ -12,7 +10,7 @@ class SetupPage extends StatefulWidget {
   State<SetupPage> createState() => _SetupPageState();
 }
 
-class _SetupPageState extends State<SetupPage> with GoNavigator {
+class _SetupPageState extends State<SetupPage> {
   final _controller = Globals.getIt.get<SetupController>();
 
   @override
@@ -31,13 +29,6 @@ class _SetupPageState extends State<SetupPage> with GoNavigator {
 
   @override
   Widget build(BuildContext context) {
-    //FIXME
-    reaction((_) => _controller.proceedToNextAction, (next) {
-      if (next) {
-        go(context, Uri(path: RoutesNavigation.home));
-      }
-    });
-
     return Scaffold(
       appBar: AppBar(title: const Text("Weight Tracker")),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -55,14 +46,21 @@ class _SetupPageState extends State<SetupPage> with GoNavigator {
             const Spacer()
           ],
         ),
-        Align(
-            alignment: Alignment.bottomRight,
-            child: TextButton(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Observer(
+                builder: (context) => Visibility(
+                    visible: _controller.isLoading,
+                    child: const CircularProgressIndicator())),
+            TextButton(
               child: const Text("Next"),
               onPressed: () {
                 _controller.saveUser();
               },
-            ))
+            ),
+          ],
+        )
       ]),
     );
   }

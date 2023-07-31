@@ -25,35 +25,8 @@ mixin _$SetupController on _SetupController, Store {
     });
   }
 
-  late final _$proceedToNextActionAtom =
-      Atom(name: '_SetupController.proceedToNextAction', context: context);
-
-  @override
-  bool get proceedToNextAction {
-    _$proceedToNextActionAtom.reportRead();
-    return super.proceedToNextAction;
-  }
-
-  @override
-  set proceedToNextAction(bool value) {
-    _$proceedToNextActionAtom.reportWrite(value, super.proceedToNextAction, () {
-      super.proceedToNextAction = value;
-    });
-  }
-
   late final _$_SetupControllerActionController =
       ActionController(name: '_SetupController', context: context);
-
-  @override
-  void next() {
-    final _$actionInfo = _$_SetupControllerActionController.startAction(
-        name: '_SetupController.next');
-    try {
-      return super.next();
-    } finally {
-      _$_SetupControllerActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void toggleIsLoading() {
@@ -69,8 +42,7 @@ mixin _$SetupController on _SetupController, Store {
   @override
   String toString() {
     return '''
-isLoading: ${isLoading},
-proceedToNextAction: ${proceedToNextAction}
+isLoading: ${isLoading}
     ''';
   }
 }

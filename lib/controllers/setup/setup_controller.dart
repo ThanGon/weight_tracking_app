@@ -2,24 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:weight_tracking_app/controllers/base/base_controller.dart';
 import 'package:weight_tracking_app/data/user.dart';
+import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/repositories/user_repository.dart';
+
+import '../../navigation/go_navigator.dart';
+import '../../navigation/routes.dart';
 
 part 'setup_controller.g.dart';
 
 class SetupController = _SetupController with _$SetupController;
 
 abstract class _SetupController extends BaseController<UserRepository>
-    with Store {
+    with Store, GoNavigator {
   @observable
   bool isLoading = false;
 
-  @observable
-  bool proceedToNextAction = false;
+  // @observable
+  // bool proceedToNextAction = false;
 
-  @action
-  void next() {
-    proceedToNextAction = true;
-  }
+  // @action
+  // void next() {
+  //   proceedToNextAction = true;
+  // }
 
   @action
   void toggleIsLoading() {
@@ -47,7 +51,7 @@ abstract class _SetupController extends BaseController<UserRepository>
     }, (id) {
       print("Entity added: $id");
       //TODO: Implement query to fetch data by id
-      next();
+      go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.home));
     });
 
     toggleIsLoading();
