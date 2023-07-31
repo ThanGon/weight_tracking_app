@@ -28,18 +28,7 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(body: Observer(
-    //   builder: (context) {
-    //     if (controller.mustCreateUser) {
-    //       go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.setup));
-    //     }
-    //     if (controller.mainUser != null) {
-    //       go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.home));
-    //       //TODO: IMPLEMENT HOME PAGE
-    //     }
-    //     return const Center(child: CircularProgressIndicator());
-    //   },
-    // ));
+    controller.defaultAssetBundle = DefaultAssetBundle.of(context);
     return const Scaffold(
         body: Center(
       child: CircularProgressIndicator(),

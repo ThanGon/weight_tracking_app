@@ -22,8 +22,14 @@ const MealBaseSchema = CollectionSchema(
       name: r'calories',
       type: IsarType.long,
     ),
-    r'name': PropertySchema(
+    r'category': PropertySchema(
       id: 1,
+      name: r'category',
+      type: IsarType.byte,
+      enumMap: _MealBasecategoryEnumValueMap,
+    ),
+    r'name': PropertySchema(
+      id: 2,
       name: r'name',
       type: IsarType.string,
     )
@@ -59,7 +65,8 @@ void _mealBaseSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.calories);
-  writer.writeString(offsets[1], object.name);
+  writer.writeByte(offsets[1], object.category.index);
+  writer.writeString(offsets[2], object.name);
 }
 
 MealBase _mealBaseDeserialize(
@@ -69,8 +76,11 @@ MealBase _mealBaseDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MealBase(
-    calories: reader.readLongOrNull(offsets[0]) ?? 100,
-    name: reader.readString(offsets[1]),
+    calories: reader.readLong(offsets[0]),
+    category:
+        _MealBasecategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+            MealCategory.lunch,
+    name: reader.readString(offsets[2]),
   );
   return object;
 }
@@ -83,13 +93,29 @@ P _mealBaseDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset) ?? 100) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
+      return (_MealBasecategoryValueEnumMap[reader.readByteOrNull(offset)] ??
+          MealCategory.lunch) as P;
+    case 2:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _MealBasecategoryEnumValueMap = {
+  'breakfast': 0,
+  'lunch': 1,
+  'dinner': 2,
+  'drink': 3,
+};
+const _MealBasecategoryValueEnumMap = {
+  0: MealCategory.breakfast,
+  1: MealCategory.lunch,
+  2: MealCategory.dinner,
+  3: MealCategory.drink,
+};
 
 Id _mealBaseGetId(MealBase object) {
   return object.id;
@@ -223,6 +249,59 @@ extension MealBaseQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'calories',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> categoryEqualTo(
+      MealCategory value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> categoryGreaterThan(
+    MealCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> categoryLessThan(
+    MealCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> categoryBetween(
+    MealCategory lower,
+    MealCategory upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -433,6 +512,18 @@ extension MealBaseQuerySortBy on QueryBuilder<MealBase, MealBase, QSortBy> {
     });
   }
 
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -457,6 +548,18 @@ extension MealBaseQuerySortThenBy
   QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByCaloriesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'calories', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
     });
   }
 
@@ -493,6 +596,12 @@ extension MealBaseQueryWhereDistinct
     });
   }
 
+  QueryBuilder<MealBase, MealBase, QDistinct> distinctByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'category');
+    });
+  }
+
   QueryBuilder<MealBase, MealBase, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -515,6 +624,12 @@ extension MealBaseQueryProperty
     });
   }
 
+  QueryBuilder<MealBase, MealCategory, QQueryOperations> categoryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'category');
+    });
+  }
+
   QueryBuilder<MealBase, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
@@ -528,10 +643,20 @@ extension MealBaseQueryProperty
 
 MealBase _$MealBaseFromJson(Map<String, dynamic> json) => MealBase(
       name: json['name'] as String,
-      calories: json['calories'] as int? ?? 100,
+      calories: json['calories'] as int,
+      category: $enumDecodeNullable(_$MealCategoryEnumMap, json['category']) ??
+          MealCategory.lunch,
     );
 
 Map<String, dynamic> _$MealBaseToJson(MealBase instance) => <String, dynamic>{
       'name': instance.name,
       'calories': instance.calories,
+      'category': _$MealCategoryEnumMap[instance.category]!,
     };
+
+const _$MealCategoryEnumMap = {
+  MealCategory.breakfast: 'breakfast',
+  MealCategory.lunch: 'lunch',
+  MealCategory.dinner: 'dinner',
+  MealCategory.drink: 'drink',
+};

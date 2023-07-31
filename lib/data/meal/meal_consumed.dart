@@ -1,19 +1,19 @@
 import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'meal.dart';
+import 'meal_category.dart';
+
 part 'meal_consumed.g.dart';
 
 @JsonSerializable()
 @embedded
-class MealConsumed {
+class MealConsumed extends Meal {
   MealConsumed({
-    this.name = "Bacon and Eggs",
-    this.calories = 100,
+    super.name = "Bacon and Eggs",
+    super.calories = 100,
+    super.category = MealCategory.lunch,
   }) : dateConsumed = DateTime.now();
-
-  final String name;
-
-  final int calories;
 
   final DateTime dateConsumed;
 

@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'meal_consumed.dart';
+import '../meal/meal_consumed.dart';
 
 part 'user.g.dart';
 

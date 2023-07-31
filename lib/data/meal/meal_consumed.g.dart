@@ -18,13 +18,19 @@ const MealConsumedSchema = Schema(
       name: r'calories',
       type: IsarType.long,
     ),
-    r'dateConsumed': PropertySchema(
+    r'category': PropertySchema(
       id: 1,
+      name: r'category',
+      type: IsarType.byte,
+      enumMap: _MealConsumedcategoryEnumValueMap,
+    ),
+    r'dateConsumed': PropertySchema(
+      id: 2,
       name: r'dateConsumed',
       type: IsarType.dateTime,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     )
@@ -52,8 +58,9 @@ void _mealConsumedSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.calories);
-  writer.writeDateTime(offsets[1], object.dateConsumed);
-  writer.writeString(offsets[2], object.name);
+  writer.writeByte(offsets[1], object.category.index);
+  writer.writeDateTime(offsets[2], object.dateConsumed);
+  writer.writeString(offsets[3], object.name);
 }
 
 MealConsumed _mealConsumedDeserialize(
@@ -64,7 +71,10 @@ MealConsumed _mealConsumedDeserialize(
 ) {
   final object = MealConsumed(
     calories: reader.readLongOrNull(offsets[0]) ?? 100,
-    name: reader.readStringOrNull(offsets[2]) ?? "Bacon and Eggs",
+    category:
+        _MealConsumedcategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+            MealCategory.lunch,
+    name: reader.readStringOrNull(offsets[3]) ?? "Bacon and Eggs",
   );
   return object;
 }
@@ -79,13 +89,30 @@ P _mealConsumedDeserializeProp<P>(
     case 0:
       return (reader.readLongOrNull(offset) ?? 100) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (_MealConsumedcategoryValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          MealCategory.lunch) as P;
     case 2:
+      return (reader.readDateTime(offset)) as P;
+    case 3:
       return (reader.readStringOrNull(offset) ?? "Bacon and Eggs") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _MealConsumedcategoryEnumValueMap = {
+  'breakfast': 0,
+  'lunch': 1,
+  'dinner': 2,
+  'drink': 3,
+};
+const _MealConsumedcategoryValueEnumMap = {
+  0: MealCategory.breakfast,
+  1: MealCategory.lunch,
+  2: MealCategory.dinner,
+  3: MealCategory.drink,
+};
 
 extension MealConsumedQueryFilter
     on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {
@@ -137,6 +164,62 @@ extension MealConsumedQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'calories',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      categoryEqualTo(MealCategory value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      categoryGreaterThan(
+    MealCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      categoryLessThan(
+    MealCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      categoryBetween(
+    MealCategory lower,
+    MealCategory upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -346,10 +429,20 @@ extension MealConsumedQueryObject
 MealConsumed _$MealConsumedFromJson(Map<String, dynamic> json) => MealConsumed(
       name: json['name'] as String? ?? "Bacon and Eggs",
       calories: json['calories'] as int? ?? 100,
+      category: $enumDecodeNullable(_$MealCategoryEnumMap, json['category']) ??
+          MealCategory.lunch,
     );
 
 Map<String, dynamic> _$MealConsumedToJson(MealConsumed instance) =>
     <String, dynamic>{
       'name': instance.name,
       'calories': instance.calories,
+      'category': _$MealCategoryEnumMap[instance.category]!,
     };
+
+const _$MealCategoryEnumMap = {
+  MealCategory.breakfast: 'breakfast',
+  MealCategory.lunch: 'lunch',
+  MealCategory.dinner: 'dinner',
+  MealCategory.drink: 'drink',
+};

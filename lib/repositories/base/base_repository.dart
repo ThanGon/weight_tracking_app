@@ -37,4 +37,17 @@ abstract class BaseRepository<T> {
       return left(ex);
     }
   }
+
+  Future<Either<IsarError, List<Id>>> putAll(List<T> entities) async {
+    try {
+      late final List<Id> returnEntityIds;
+      await _isar.writeTxn(() async {
+        returnEntityIds = await _isar.collection<T>().putAll(entities);
+      });
+
+      return right(returnEntityIds);
+    } on IsarError catch (ex) {
+      return left(ex);
+    }
+  }
 }

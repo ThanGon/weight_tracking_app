@@ -6,6 +6,7 @@ import '../../controllers/root/root_controller.dart';
 import '../../controllers/setup/setup_controller.dart';
 import '../../core/globals.dart';
 import '../../core/schemas.dart';
+import '../../repositories/meal_repository.dart';
 import '../../repositories/user_repository.dart';
 
 class DependencyInjections {
@@ -29,11 +30,14 @@ class DependencyInjections {
   static void _startRepositories() {
     locator.registerLazySingleton<UserRepository>(
         () => UserRepository(locator.get<Isar>()));
+
+    locator.registerLazySingleton<MealRepository>(
+        () => MealRepository(locator.get<Isar>()));
   }
 
   static void _startControllers() {
-    locator.registerLazySingleton<RootController>(
-        () => RootController(locator.get<UserRepository>()));
+    locator.registerLazySingleton<RootController>(() => RootController(
+        locator.get<UserRepository>(), locator.get<MealRepository>()));
 
     locator.registerLazySingleton<SetupController>(
         () => SetupController(locator.get<UserRepository>()));
