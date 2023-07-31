@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_tracking_app/controllers/root/root_controller.dart';
-import 'package:weight_tracking_app/globals.dart';
+import 'package:weight_tracking_app/core/globals.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});

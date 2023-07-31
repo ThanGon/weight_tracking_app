@@ -1,5 +1,0 @@
-# SEE: https://medium.com/@masreplay/integrating-freezed-with-isar-for-effortless-data-management-in-flutter-df03c3e37e59
-global_options:
-  freezed:freezed:
-    runs_before:
-      - isar_generator:isar_generator

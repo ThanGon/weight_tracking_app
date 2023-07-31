@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weight_tracking_app/core/globals.dart';
 import 'package:weight_tracking_app/data/injections/injections.dart';
-import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/navigation/router.dart';
 
 void main() async {

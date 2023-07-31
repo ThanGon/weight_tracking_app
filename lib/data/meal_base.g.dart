@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'meal_base.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,19 +9,18 @@ part of 'user.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetUserCollection on Isar {
-  IsarCollection<User> get users => this.collection();
+extension GetMealBaseCollection on Isar {
+  IsarCollection<MealBase> get mealBases => this.collection();
 }
 
-const UserSchema = CollectionSchema(
-  name: r'User',
-  id: -7838171048429979076,
+const MealBaseSchema = CollectionSchema(
+  name: r'MealBase',
+  id: 4098450189679164549,
   properties: {
-    r'meals': PropertySchema(
+    r'calories': PropertySchema(
       id: 0,
-      name: r'meals',
-      type: IsarType.objectList,
-      target: r'MealConsumed',
+      name: r'calories',
+      type: IsarType.long,
     ),
     r'name': PropertySchema(
       id: 1,
@@ -29,73 +28,54 @@ const UserSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _userEstimateSize,
-  serialize: _userSerialize,
-  deserialize: _userDeserialize,
-  deserializeProp: _userDeserializeProp,
+  estimateSize: _mealBaseEstimateSize,
+  serialize: _mealBaseSerialize,
+  deserialize: _mealBaseDeserialize,
+  deserializeProp: _mealBaseDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
-  embeddedSchemas: {r'MealConsumed': MealConsumedSchema},
-  getId: _userGetId,
-  getLinks: _userGetLinks,
-  attach: _userAttach,
+  embeddedSchemas: {},
+  getId: _mealBaseGetId,
+  getLinks: _mealBaseGetLinks,
+  attach: _mealBaseAttach,
   version: '3.1.0+1',
 );
 
-int _userEstimateSize(
-  User object,
+int _mealBaseEstimateSize(
+  MealBase object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.meals.length * 3;
-  {
-    final offsets = allOffsets[MealConsumed]!;
-    for (var i = 0; i < object.meals.length; i++) {
-      final value = object.meals[i];
-      bytesCount += MealConsumedSchema.estimateSize(value, offsets, allOffsets);
-    }
-  }
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
 
-void _userSerialize(
-  User object,
+void _mealBaseSerialize(
+  MealBase object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeObjectList<MealConsumed>(
-    offsets[0],
-    allOffsets,
-    MealConsumedSchema.serialize,
-    object.meals,
-  );
+  writer.writeLong(offsets[0], object.calories);
   writer.writeString(offsets[1], object.name);
 }
 
-User _userDeserialize(
+MealBase _mealBaseDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = User(
-    meals: reader.readObjectList<MealConsumed>(
-          offsets[0],
-          MealConsumedSchema.deserialize,
-          allOffsets,
-          MealConsumed(),
-        ) ??
-        const <MealConsumed>[],
+  final object = MealBase(
+    calories: reader.readLongOrNull(offsets[0]) ?? 100,
     name: reader.readString(offsets[1]),
   );
   return object;
 }
 
-P _userDeserializeProp<P>(
+P _mealBaseDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -103,13 +83,7 @@ P _userDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readObjectList<MealConsumed>(
-            offset,
-            MealConsumedSchema.deserialize,
-            allOffsets,
-            MealConsumed(),
-          ) ??
-          const <MealConsumed>[]) as P;
+      return (reader.readLongOrNull(offset) ?? 100) as P;
     case 1:
       return (reader.readString(offset)) as P;
     default:
@@ -117,26 +91,26 @@ P _userDeserializeProp<P>(
   }
 }
 
-Id _userGetId(User object) {
+Id _mealBaseGetId(MealBase object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _userGetLinks(User object) {
+List<IsarLinkBase<dynamic>> _mealBaseGetLinks(MealBase object) {
   return [];
 }
 
-void _userAttach(IsarCollection<dynamic> col, Id id, User object) {}
+void _mealBaseAttach(IsarCollection<dynamic> col, Id id, MealBase object) {}
 
-extension UserQueryWhereSort on QueryBuilder<User, User, QWhere> {
-  QueryBuilder<User, User, QAfterWhere> anyId() {
+extension MealBaseQueryWhereSort on QueryBuilder<MealBase, MealBase, QWhere> {
+  QueryBuilder<MealBase, MealBase, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension UserQueryWhere on QueryBuilder<User, User, QWhereClause> {
-  QueryBuilder<User, User, QAfterWhereClause> idEqualTo(Id id) {
+extension MealBaseQueryWhere on QueryBuilder<MealBase, MealBase, QWhereClause> {
+  QueryBuilder<MealBase, MealBase, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -145,7 +119,7 @@ extension UserQueryWhere on QueryBuilder<User, User, QWhereClause> {
     });
   }
 
-  QueryBuilder<User, User, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<MealBase, MealBase, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -167,7 +141,7 @@ extension UserQueryWhere on QueryBuilder<User, User, QWhereClause> {
     });
   }
 
-  QueryBuilder<User, User, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<MealBase, MealBase, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -176,7 +150,7 @@ extension UserQueryWhere on QueryBuilder<User, User, QWhereClause> {
     });
   }
 
-  QueryBuilder<User, User, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<MealBase, MealBase, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -185,7 +159,7 @@ extension UserQueryWhere on QueryBuilder<User, User, QWhereClause> {
     });
   }
 
-  QueryBuilder<User, User, QAfterWhereClause> idBetween(
+  QueryBuilder<MealBase, MealBase, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -202,8 +176,62 @@ extension UserQueryWhere on QueryBuilder<User, User, QWhereClause> {
   }
 }
 
-extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
-  QueryBuilder<User, User, QAfterFilterCondition> idEqualTo(Id value) {
+extension MealBaseQueryFilter
+    on QueryBuilder<MealBase, MealBase, QFilterCondition> {
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> caloriesEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'calories',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> caloriesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'calories',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> caloriesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'calories',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> caloriesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'calories',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -212,7 +240,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -225,7 +253,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> idLessThan(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -238,7 +266,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> idBetween(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -255,91 +283,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -352,7 +296,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -367,7 +311,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -382,7 +326,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameBetween(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -401,7 +345,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -414,7 +358,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -427,7 +371,8 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameContains(String value,
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameContains(
+      String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -438,7 +383,8 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameMatches(String pattern,
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameMatches(
+      String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -449,7 +395,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameIsEmpty() {
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'name',
@@ -458,7 +404,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> nameIsNotEmpty() {
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
@@ -468,59 +414,86 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
   }
 }
 
-extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {
-  QueryBuilder<User, User, QAfterFilterCondition> mealsElement(
-      FilterQuery<MealConsumed> q) {
+extension MealBaseQueryObject
+    on QueryBuilder<MealBase, MealBase, QFilterCondition> {}
+
+extension MealBaseQueryLinks
+    on QueryBuilder<MealBase, MealBase, QFilterCondition> {}
+
+extension MealBaseQuerySortBy on QueryBuilder<MealBase, MealBase, QSortBy> {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByCalories() {
     return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'meals');
+      return query.addSortBy(r'calories', Sort.asc);
     });
   }
-}
 
-extension UserQueryLinks on QueryBuilder<User, User, QFilterCondition> {}
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByCaloriesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.desc);
+    });
+  }
 
-extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
-  QueryBuilder<User, User, QAfterSortBy> sortByName() {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<User, User, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
-  QueryBuilder<User, User, QAfterSortBy> thenById() {
+extension MealBaseQuerySortThenBy
+    on QueryBuilder<MealBase, MealBase, QSortThenBy> {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByCalories() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByCaloriesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<User, User, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<User, User, QAfterSortBy> thenByName() {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<User, User, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
-  QueryBuilder<User, User, QDistinct> distinctByName(
+extension MealBaseQueryWhereDistinct
+    on QueryBuilder<MealBase, MealBase, QDistinct> {
+  QueryBuilder<MealBase, MealBase, QDistinct> distinctByCalories() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'calories');
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
@@ -528,20 +501,21 @@ extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
   }
 }
 
-extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
-  QueryBuilder<User, int, QQueryOperations> idProperty() {
+extension MealBaseQueryProperty
+    on QueryBuilder<MealBase, MealBase, QQueryProperty> {
+  QueryBuilder<MealBase, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<User, List<MealConsumed>, QQueryOperations> mealsProperty() {
+  QueryBuilder<MealBase, int, QQueryOperations> caloriesProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'meals');
+      return query.addPropertyName(r'calories');
     });
   }
 
-  QueryBuilder<User, String, QQueryOperations> nameProperty() {
+  QueryBuilder<MealBase, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });
@@ -552,15 +526,12 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+MealBase _$MealBaseFromJson(Map<String, dynamic> json) => MealBase(
       name: json['name'] as String,
-      meals: (json['meals'] as List<dynamic>?)
-              ?.map((e) => MealConsumed.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const <MealConsumed>[],
+      calories: json['calories'] as int? ?? 100,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$MealBaseToJson(MealBase instance) => <String, dynamic>{
       'name': instance.name,
-      'meals': instance.meals,
+      'calories': instance.calories,
     };

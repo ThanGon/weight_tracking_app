@@ -1,0 +1,355 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'meal_consumed.dart';
+
+// **************************************************************************
+// IsarEmbeddedGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const MealConsumedSchema = Schema(
+  name: r'MealConsumed',
+  id: -2112322328609894127,
+  properties: {
+    r'calories': PropertySchema(
+      id: 0,
+      name: r'calories',
+      type: IsarType.long,
+    ),
+    r'dateConsumed': PropertySchema(
+      id: 1,
+      name: r'dateConsumed',
+      type: IsarType.dateTime,
+    ),
+    r'name': PropertySchema(
+      id: 2,
+      name: r'name',
+      type: IsarType.string,
+    )
+  },
+  estimateSize: _mealConsumedEstimateSize,
+  serialize: _mealConsumedSerialize,
+  deserialize: _mealConsumedDeserialize,
+  deserializeProp: _mealConsumedDeserializeProp,
+);
+
+int _mealConsumedEstimateSize(
+  MealConsumed object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.name.length * 3;
+  return bytesCount;
+}
+
+void _mealConsumedSerialize(
+  MealConsumed object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.calories);
+  writer.writeDateTime(offsets[1], object.dateConsumed);
+  writer.writeString(offsets[2], object.name);
+}
+
+MealConsumed _mealConsumedDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = MealConsumed(
+    calories: reader.readLongOrNull(offsets[0]) ?? 100,
+    name: reader.readStringOrNull(offsets[2]) ?? "Bacon and Eggs",
+  );
+  return object;
+}
+
+P _mealConsumedDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLongOrNull(offset) ?? 100) as P;
+    case 1:
+      return (reader.readDateTime(offset)) as P;
+    case 2:
+      return (reader.readStringOrNull(offset) ?? "Bacon and Eggs") as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension MealConsumedQueryFilter
+    on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      caloriesEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'calories',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      caloriesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'calories',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      caloriesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'calories',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      caloriesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'calories',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      dateConsumedEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dateConsumed',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      dateConsumedGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dateConsumed',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      dateConsumedLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dateConsumed',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      dateConsumedBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dateConsumed',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+}
+
+extension MealConsumedQueryObject
+    on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {}
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+MealConsumed _$MealConsumedFromJson(Map<String, dynamic> json) => MealConsumed(
+      name: json['name'] as String? ?? "Bacon and Eggs",
+      calories: json['calories'] as int? ?? 100,
+    );
+
+Map<String, dynamic> _$MealConsumedToJson(MealConsumed instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'calories': instance.calories,
+    };

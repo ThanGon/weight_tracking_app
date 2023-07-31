@@ -1,20 +1,25 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import 'meal_consumed.dart';
 
 part 'user.g.dart';
-part 'user.freezed.dart';
 
-@Collection(ignore: {'copyWith'})
-@freezed
-class User with _$User {
-  const factory User({
-    required String name,
-  }) = _User;
+@JsonSerializable()
+@collection
+class User {
+  const User({
+    required this.name,
+    this.meals = const <MealConsumed>[],
+  });
 
-  Id get id => Isar.autoIncrement;
+  final String name;
 
-  const User._();
+  final Id id = Isar.autoIncrement;
+
+  final List<MealConsumed> meals;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

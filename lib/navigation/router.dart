@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weight_tracking_app/globals.dart';
+import 'package:weight_tracking_app/core/globals.dart';
 import 'package:weight_tracking_app/pages/home/home_page.dart';
 import 'package:weight_tracking_app/pages/root/root_page.dart';
 import 'package:weight_tracking_app/pages/setup/setup_page.dart';

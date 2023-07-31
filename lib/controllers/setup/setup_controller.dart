@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:weight_tracking_app/controllers/base/base_controller.dart';
+import 'package:weight_tracking_app/core/globals.dart';
 import 'package:weight_tracking_app/data/user.dart';
-import 'package:weight_tracking_app/globals.dart';
 import 'package:weight_tracking_app/repositories/user_repository.dart';
 
 import '../../navigation/go_navigator.dart';

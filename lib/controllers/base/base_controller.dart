@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weight_tracking_app/globals.dart';
+import 'package:weight_tracking_app/core/globals.dart';
 import 'package:weight_tracking_app/repositories/base/base_repository.dart';
 
 abstract class BaseController<T extends BaseRepository> {

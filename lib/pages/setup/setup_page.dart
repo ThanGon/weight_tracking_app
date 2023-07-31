@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weight_tracking_app/controllers/setup/setup_controller.dart';
-import 'package:weight_tracking_app/globals.dart';
+import 'package:weight_tracking_app/core/globals.dart';
 
 class SetupPage extends StatefulWidget {
   const SetupPage({super.key});

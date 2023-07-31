@@ -1,11 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:weight_tracking_app/controllers/root/root_controller.dart';
-import 'package:weight_tracking_app/controllers/setup/setup_controller.dart';
-import 'package:weight_tracking_app/data/user.dart';
-import 'package:weight_tracking_app/globals.dart';
-import 'package:weight_tracking_app/repositories/user_repository.dart';
+
+import '../../controllers/root/root_controller.dart';
+import '../../controllers/setup/setup_controller.dart';
+import '../../core/globals.dart';
+import '../../core/schemas.dart';
+import '../../repositories/user_repository.dart';
 
 class DependencyInjections {
   static GetIt get locator => Globals.getIt;
@@ -20,7 +21,7 @@ class DependencyInjections {
     return Future(() async {
       final dir = await getApplicationDocumentsDirectory();
       locator.registerSingletonAsync<Isar>(
-          () => Isar.open([UserSchema], directory: dir.path));
+          () => Isar.open(isarSchemas, directory: dir.path));
       await locator.isReady<Isar>();
     });
   }
