@@ -2,13 +2,13 @@ import 'package:fpdart/fpdart.dart';
 import 'package:isar/isar.dart';
 
 abstract class BaseRepository<T> {
-  final Isar _isar;
+  final Isar isar;
 
-  BaseRepository(this._isar);
+  BaseRepository(this.isar);
 
   Future<Either<IsarError, List<T>>> queryAll() async {
     try {
-      return right(await _isar
+      return right(await isar
           .collection<T>()
           .buildQuery<T>(whereClauses: [const IdWhereClause.any()]).findAll());
     } on IsarError catch (ex) {
@@ -18,7 +18,7 @@ abstract class BaseRepository<T> {
 
   Future<Either<IsarError, T?>> queryById(Id id) async {
     try {
-      return right(await _isar.collection<T>().buildQuery<T>(
+      return right(await isar.collection<T>().buildQuery<T>(
           whereClauses: [IdWhereClause.equalTo(value: id)]).findFirst());
     } on IsarError catch (ex) {
       return left(ex);
@@ -28,8 +28,8 @@ abstract class BaseRepository<T> {
   Future<Either<IsarError, Id>> put(T entity) async {
     try {
       late final Id returnEntityId;
-      await _isar.writeTxn(() async {
-        returnEntityId = await _isar.collection<T>().put(entity);
+      await isar.writeTxn(() async {
+        returnEntityId = await isar.collection<T>().put(entity);
       });
 
       return right(returnEntityId);
@@ -41,8 +41,8 @@ abstract class BaseRepository<T> {
   Future<Either<IsarError, List<Id>>> putAll(List<T> entities) async {
     try {
       late final List<Id> returnEntityIds;
-      await _isar.writeTxn(() async {
-        returnEntityIds = await _isar.collection<T>().putAll(entities);
+      await isar.writeTxn(() async {
+        returnEntityIds = await isar.collection<T>().putAll(entities);
       });
 
       return right(returnEntityIds);

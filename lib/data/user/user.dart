@@ -15,8 +15,10 @@ class User {
 
   final String name;
 
+  @Index()
   final Id id = Isar.autoIncrement;
 
+  // TODO: SWITCH TO ISAR LINKS
   final List<MealConsumed> meals;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
