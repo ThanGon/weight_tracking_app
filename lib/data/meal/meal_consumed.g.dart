@@ -3,13 +3,17 @@
 part of 'meal_consumed.dart';
 
 // **************************************************************************
-// IsarEmbeddedGenerator
+// IsarCollectionGenerator
 // **************************************************************************
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-const MealConsumedSchema = Schema(
+extension GetMealConsumedCollection on Isar {
+  IsarCollection<MealConsumed> get mealConsumeds => this.collection();
+}
+
+const MealConsumedSchema = CollectionSchema(
   name: r'MealConsumed',
   id: -2112322328609894127,
   properties: {
@@ -39,6 +43,36 @@ const MealConsumedSchema = Schema(
   serialize: _mealConsumedSerialize,
   deserialize: _mealConsumedDeserialize,
   deserializeProp: _mealConsumedDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'dateConsumed': IndexSchema(
+      id: 6633330020351521530,
+      name: r'dateConsumed',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'dateConsumed',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
+  links: {
+    r'user': LinkSchema(
+      id: 5756438452719712283,
+      name: r'user',
+      target: r'User',
+      single: true,
+      linkName: r'meals',
+    )
+  },
+  embeddedSchemas: {},
+  getId: _mealConsumedGetId,
+  getLinks: _mealConsumedGetLinks,
+  attach: _mealConsumedAttach,
+  version: '3.1.0+1',
 );
 
 int _mealConsumedEstimateSize(
@@ -113,6 +147,199 @@ const _MealConsumedcategoryValueEnumMap = {
   2: MealCategory.dinner,
   3: MealCategory.drink,
 };
+
+Id _mealConsumedGetId(MealConsumed object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _mealConsumedGetLinks(MealConsumed object) {
+  return [object.user];
+}
+
+void _mealConsumedAttach(
+    IsarCollection<dynamic> col, Id id, MealConsumed object) {
+  object.user.attach(col, col.isar.collection<User>(), r'user', id);
+}
+
+extension MealConsumedQueryWhereSort
+    on QueryBuilder<MealConsumed, MealConsumed, QWhere> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhere> anyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhere> anyDateConsumed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'dateConsumed'),
+      );
+    });
+  }
+}
+
+extension MealConsumedQueryWhere
+    on QueryBuilder<MealConsumed, MealConsumed, QWhereClause> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause> idEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause> idNotEqualTo(
+      Id id) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause> idGreaterThan(
+      Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause> idLessThan(Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause>
+      dateConsumedEqualTo(DateTime dateConsumed) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'dateConsumed',
+        value: [dateConsumed],
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause>
+      dateConsumedNotEqualTo(DateTime dateConsumed) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dateConsumed',
+              lower: [],
+              upper: [dateConsumed],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dateConsumed',
+              lower: [dateConsumed],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dateConsumed',
+              lower: [dateConsumed],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dateConsumed',
+              lower: [],
+              upper: [dateConsumed],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause>
+      dateConsumedGreaterThan(
+    DateTime dateConsumed, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'dateConsumed',
+        lower: [dateConsumed],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause>
+      dateConsumedLessThan(
+    DateTime dateConsumed, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'dateConsumed',
+        lower: [],
+        upper: [dateConsumed],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterWhereClause>
+      dateConsumedBetween(
+    DateTime lowerDateConsumed,
+    DateTime upperDateConsumed, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'dateConsumed',
+        lower: [lowerDateConsumed],
+        includeLower: includeLower,
+        upper: [upperDateConsumed],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
 
 extension MealConsumedQueryFilter
     on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {
@@ -284,6 +511,59 @@ extension MealConsumedQueryFilter
     });
   }
 
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> idEqualTo(
+      Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> idGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> idLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> idBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -421,6 +701,201 @@ extension MealConsumedQueryFilter
 
 extension MealConsumedQueryObject
     on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {}
+
+extension MealConsumedQueryLinks
+    on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> user(
+      FilterQuery<User> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'user');
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> userIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'user', 0, true, 0, true);
+    });
+  }
+}
+
+extension MealConsumedQuerySortBy
+    on QueryBuilder<MealConsumed, MealConsumed, QSortBy> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByCalories() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByCaloriesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByDateConsumed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateConsumed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy>
+      sortByDateConsumedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateConsumed', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+}
+
+extension MealConsumedQuerySortThenBy
+    on QueryBuilder<MealConsumed, MealConsumed, QSortThenBy> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByCalories() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByCaloriesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calories', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByDateConsumed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateConsumed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy>
+      thenByDateConsumedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateConsumed', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+}
+
+extension MealConsumedQueryWhereDistinct
+    on QueryBuilder<MealConsumed, MealConsumed, QDistinct> {
+  QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByCalories() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'calories');
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'category');
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByDateConsumed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dateConsumed');
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByName(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+}
+
+extension MealConsumedQueryProperty
+    on QueryBuilder<MealConsumed, MealConsumed, QQueryProperty> {
+  QueryBuilder<MealConsumed, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<MealConsumed, int, QQueryOperations> caloriesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'calories');
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealCategory, QQueryOperations>
+      categoryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'category');
+    });
+  }
+
+  QueryBuilder<MealConsumed, DateTime, QQueryOperations>
+      dateConsumedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dateConsumed');
+    });
+  }
+
+  QueryBuilder<MealConsumed, String, QQueryOperations> nameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'name');
+    });
+  }
+}
 
 // **************************************************************************
 // JsonSerializableGenerator

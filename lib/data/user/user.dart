@@ -8,9 +8,8 @@ part 'user.g.dart';
 @JsonSerializable()
 @collection
 class User {
-  const User({
+  User({
     required this.name,
-    this.meals = const <MealConsumed>[],
   });
 
   final String name;
@@ -18,8 +17,7 @@ class User {
   @Index()
   final Id id = Isar.autoIncrement;
 
-  // TODO: SWITCH TO ISAR LINKS
-  final List<MealConsumed> meals;
+  final IsarLinks<MealConsumed> meals = IsarLinks<MealConsumed>();
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

@@ -24,6 +24,17 @@ mixin _$HomeController on _HomeController, Store {
   }
 
   @override
+  void addAllMealConsumed(Iterable<Meal> meals) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.addAllMealConsumed');
+    try {
+      return super.addAllMealConsumed(meals);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 

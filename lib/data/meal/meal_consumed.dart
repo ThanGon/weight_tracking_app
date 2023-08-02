@@ -1,13 +1,14 @@
 import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../user/user.dart';
 import 'meal.dart';
 import 'meal_category.dart';
 
 part 'meal_consumed.g.dart';
 
 @JsonSerializable()
-@embedded
+@collection
 class MealConsumed extends Meal {
   MealConsumed({
     super.name = "Bacon and Eggs",
@@ -15,7 +16,14 @@ class MealConsumed extends Meal {
     super.category = MealCategory.lunch,
   }) : dateConsumed = DateTime.now();
 
+  @Index()
+  final id = Isar.autoIncrement;
+
+  @Index()
   final DateTime dateConsumed;
+
+  @Backlink(to: 'meals')
+  final IsarLink<User> user = IsarLink<User>();
 
   factory MealConsumed.fromJson(Map<String, dynamic> json) =>
       _$MealConsumedFromJson(json);

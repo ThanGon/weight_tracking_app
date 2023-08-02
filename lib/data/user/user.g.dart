@@ -17,14 +17,8 @@ const UserSchema = CollectionSchema(
   name: r'User',
   id: -7838171048429979076,
   properties: {
-    r'meals': PropertySchema(
-      id: 0,
-      name: r'meals',
-      type: IsarType.objectList,
-      target: r'MealConsumed',
-    ),
     r'name': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'name',
       type: IsarType.string,
     )
@@ -35,8 +29,15 @@ const UserSchema = CollectionSchema(
   deserializeProp: _userDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
-  embeddedSchemas: {r'MealConsumed': MealConsumedSchema},
+  links: {
+    r'meals': LinkSchema(
+      id: 2318407410882716253,
+      name: r'meals',
+      target: r'MealConsumed',
+      single: false,
+    )
+  },
+  embeddedSchemas: {},
   getId: _userGetId,
   getLinks: _userGetLinks,
   attach: _userAttach,
@@ -49,14 +50,6 @@ int _userEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.meals.length * 3;
-  {
-    final offsets = allOffsets[MealConsumed]!;
-    for (var i = 0; i < object.meals.length; i++) {
-      final value = object.meals[i];
-      bytesCount += MealConsumedSchema.estimateSize(value, offsets, allOffsets);
-    }
-  }
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -67,13 +60,7 @@ void _userSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeObjectList<MealConsumed>(
-    offsets[0],
-    allOffsets,
-    MealConsumedSchema.serialize,
-    object.meals,
-  );
-  writer.writeString(offsets[1], object.name);
+  writer.writeString(offsets[0], object.name);
 }
 
 User _userDeserialize(
@@ -83,14 +70,7 @@ User _userDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = User(
-    meals: reader.readObjectList<MealConsumed>(
-          offsets[0],
-          MealConsumedSchema.deserialize,
-          allOffsets,
-          MealConsumed(),
-        ) ??
-        const <MealConsumed>[],
-    name: reader.readString(offsets[1]),
+    name: reader.readString(offsets[0]),
   );
   return object;
 }
@@ -103,14 +83,6 @@ P _userDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readObjectList<MealConsumed>(
-            offset,
-            MealConsumedSchema.deserialize,
-            allOffsets,
-            MealConsumed(),
-          ) ??
-          const <MealConsumed>[]) as P;
-    case 1:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -122,10 +94,12 @@ Id _userGetId(User object) {
 }
 
 List<IsarLinkBase<dynamic>> _userGetLinks(User object) {
-  return [];
+  return [object.meals];
 }
 
-void _userAttach(IsarCollection<dynamic> col, Id id, User object) {}
+void _userAttach(IsarCollection<dynamic> col, Id id, User object) {
+  object.meals.attach(col, col.isar.collection<MealConsumed>(), r'meals', id);
+}
 
 extension UserQueryWhereSort on QueryBuilder<User, User, QWhere> {
   QueryBuilder<User, User, QAfterWhere> anyId() {
@@ -252,90 +226,6 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
         upper: upper,
         includeUpper: includeUpper,
       ));
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meals',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
     });
   }
 
@@ -468,16 +358,65 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
   }
 }
 
-extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {
-  QueryBuilder<User, User, QAfterFilterCondition> mealsElement(
+extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {}
+
+extension UserQueryLinks on QueryBuilder<User, User, QFilterCondition> {
+  QueryBuilder<User, User, QAfterFilterCondition> meals(
       FilterQuery<MealConsumed> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'meals');
+      return query.link(q, r'meals');
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meals', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> mealsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meals', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> mealsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meals', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meals', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meals', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> mealsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'meals', lower, includeLower, upper, includeUpper);
     });
   }
 }
-
-extension UserQueryLinks on QueryBuilder<User, User, QFilterCondition> {}
 
 extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
   QueryBuilder<User, User, QAfterSortBy> sortByName() {
@@ -535,12 +474,6 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
     });
   }
 
-  QueryBuilder<User, List<MealConsumed>, QQueryOperations> mealsProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'meals');
-    });
-  }
-
   QueryBuilder<User, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
@@ -554,13 +487,8 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       name: json['name'] as String,
-      meals: (json['meals'] as List<dynamic>?)
-              ?.map((e) => MealConsumed.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const <MealConsumed>[],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
-      'meals': instance.meals,
     };

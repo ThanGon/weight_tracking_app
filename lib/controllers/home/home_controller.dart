@@ -21,24 +21,43 @@ abstract class _HomeController extends BaseController<MealRepository>
 
   final ObservableList<Meal> mealsAvailable = ObservableList.of([]);
 
+  final ObservableList<Meal> mealsConsumed = ObservableList.of([]);
+
   @action
   void addAllMeal(Iterable<Meal> meals) {
     mealsAvailable.addAll(meals);
   }
 
+  @action
+  void addAllMealConsumed(Iterable<Meal> meals) {
+    mealsConsumed.addAll(meals);
+  }
+
   @override
   void init() {
     _getMealsAvailable();
+    _getMealsConsumedToday();
   }
 
   Future<void> _getMealsAvailable() async {
     final result = await _mealRepository.queryAll();
 
     result.fold((error) {
-      errorSnackbar(error.message);
+      errorSnackbar("Something went wrong while fetching meals");
       go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.home));
     }, (meals) {
       addAllMeal(meals);
+    });
+  }
+
+  Future<void> _getMealsConsumedToday() async {
+    final result = await _mealRepository.queryAll();
+
+    result.fold((error) {
+      errorSnackbar("Could not fetch meals consumed today");
+      // go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.home));
+    }, (meals) {
+      addAllMealConsumed(meals);
     });
   }
 }
