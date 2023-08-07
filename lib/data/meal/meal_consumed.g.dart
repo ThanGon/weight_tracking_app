@@ -33,8 +33,18 @@ const MealConsumedSchema = CollectionSchema(
       name: r'dateConsumed',
       type: IsarType.dateTime,
     ),
-    r'name': PropertySchema(
+    r'description': PropertySchema(
       id: 3,
+      name: r'description',
+      type: IsarType.string,
+    ),
+    r'imageURI': PropertySchema(
+      id: 4,
+      name: r'imageURI',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 5,
       name: r'name',
       type: IsarType.string,
     )
@@ -81,6 +91,18 @@ int _mealConsumedEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.description;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.imageURI;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -94,7 +116,9 @@ void _mealConsumedSerialize(
   writer.writeLong(offsets[0], object.calories);
   writer.writeByte(offsets[1], object.category.index);
   writer.writeDateTime(offsets[2], object.dateConsumed);
-  writer.writeString(offsets[3], object.name);
+  writer.writeString(offsets[3], object.description);
+  writer.writeString(offsets[4], object.imageURI);
+  writer.writeString(offsets[5], object.name);
 }
 
 MealConsumed _mealConsumedDeserialize(
@@ -108,7 +132,9 @@ MealConsumed _mealConsumedDeserialize(
     category:
         _MealConsumedcategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
             MealCategory.lunch,
-    name: reader.readStringOrNull(offsets[3]) ?? "Bacon and Eggs",
+    description: reader.readStringOrNull(offsets[3]),
+    imageURI: reader.readStringOrNull(offsets[4]),
+    name: reader.readStringOrNull(offsets[5]) ?? "Bacon and Eggs",
   );
   return object;
 }
@@ -129,6 +155,10 @@ P _mealConsumedDeserializeProp<P>(
     case 2:
       return (reader.readDateTime(offset)) as P;
     case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
       return (reader.readStringOrNull(offset) ?? "Bacon and Eggs") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -511,6 +541,160 @@ extension MealConsumedQueryFilter
     });
   }
 
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'description',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'description',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      descriptionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -560,6 +744,160 @@ extension MealConsumedQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'imageURI',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'imageURI',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURILessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'imageURI',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'imageURI',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'imageURI',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      imageURIIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'imageURI',
+        value: '',
       ));
     });
   }
@@ -757,6 +1095,31 @@ extension MealConsumedQuerySortBy
     });
   }
 
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByDescription() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy>
+      sortByDescriptionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByImageURI() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByImageURIDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.desc);
+    });
+  }
+
   QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -809,6 +1172,19 @@ extension MealConsumedQuerySortThenBy
     });
   }
 
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByDescription() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy>
+      thenByDescriptionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
   QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -818,6 +1194,18 @@ extension MealConsumedQuerySortThenBy
   QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByImageURI() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterSortBy> thenByImageURIDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.desc);
     });
   }
 
@@ -851,6 +1239,20 @@ extension MealConsumedQueryWhereDistinct
   QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByDateConsumed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dateConsumed');
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByDescription(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QDistinct> distinctByImageURI(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'imageURI', caseSensitive: caseSensitive);
     });
   }
 
@@ -890,6 +1292,18 @@ extension MealConsumedQueryProperty
     });
   }
 
+  QueryBuilder<MealConsumed, String?, QQueryOperations> descriptionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<MealConsumed, String?, QQueryOperations> imageURIProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'imageURI');
+    });
+  }
+
   QueryBuilder<MealConsumed, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
@@ -904,6 +1318,9 @@ extension MealConsumedQueryProperty
 MealConsumed _$MealConsumedFromJson(Map<String, dynamic> json) => MealConsumed(
       name: json['name'] as String? ?? "Bacon and Eggs",
       calories: json['calories'] as int? ?? 100,
+      description: json['description'] as String? ??
+          "Bacon and eggs is a dish consisting of bacon and eggs.",
+      imageURI: json['imageURI'] as String?,
       category: $enumDecodeNullable(_$MealCategoryEnumMap, json['category']) ??
           MealCategory.lunch,
     );
@@ -911,6 +1328,8 @@ MealConsumed _$MealConsumedFromJson(Map<String, dynamic> json) => MealConsumed(
 Map<String, dynamic> _$MealConsumedToJson(MealConsumed instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'description': instance.description,
+      'imageURI': instance.imageURI,
       'calories': instance.calories,
       'category': _$MealCategoryEnumMap[instance.category]!,
     };

@@ -13,6 +13,8 @@ class MealConsumed extends Meal {
   MealConsumed({
     super.name = "Bacon and Eggs",
     super.calories = 100,
+    super.description = "Bacon and eggs is a dish consisting of bacon and eggs.",
+    super.imageURI,
     super.category = MealCategory.lunch,
   }) : dateConsumed = DateTime.now();
 

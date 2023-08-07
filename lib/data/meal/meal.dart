@@ -7,10 +7,14 @@ abstract class Meal {
   Meal({
     required this.name,
     required this.calories,
+    this.description, 
+    this.imageURI,
     this.category = MealCategory.lunch,
   });
 
   final String name;
+
+  final String? description, imageURI;
 
   final int calories;
 

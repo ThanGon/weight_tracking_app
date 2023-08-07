@@ -28,8 +28,18 @@ const MealBaseSchema = CollectionSchema(
       type: IsarType.byte,
       enumMap: _MealBasecategoryEnumValueMap,
     ),
-    r'name': PropertySchema(
+    r'description': PropertySchema(
       id: 2,
+      name: r'description',
+      type: IsarType.string,
+    ),
+    r'imageURI': PropertySchema(
+      id: 3,
+      name: r'imageURI',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 4,
       name: r'name',
       type: IsarType.string,
     )
@@ -54,6 +64,18 @@ int _mealBaseEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.description;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.imageURI;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -66,7 +88,9 @@ void _mealBaseSerialize(
 ) {
   writer.writeLong(offsets[0], object.calories);
   writer.writeByte(offsets[1], object.category.index);
-  writer.writeString(offsets[2], object.name);
+  writer.writeString(offsets[2], object.description);
+  writer.writeString(offsets[3], object.imageURI);
+  writer.writeString(offsets[4], object.name);
 }
 
 MealBase _mealBaseDeserialize(
@@ -80,7 +104,9 @@ MealBase _mealBaseDeserialize(
     category:
         _MealBasecategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
             MealCategory.lunch,
-    name: reader.readString(offsets[2]),
+    description: reader.readStringOrNull(offsets[2]),
+    imageURI: reader.readStringOrNull(offsets[3]),
+    name: reader.readString(offsets[4]),
   );
   return object;
 }
@@ -98,6 +124,10 @@ P _mealBaseDeserializeProp<P>(
       return (_MealBasecategoryValueEnumMap[reader.readByteOrNull(offset)] ??
           MealCategory.lunch) as P;
     case 2:
+      return (reader.readStringOrNull(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -310,6 +340,155 @@ extension MealBaseQueryFilter
     });
   }
 
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'description',
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition>
+      descriptionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'description',
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition>
+      descriptionGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> descriptionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition>
+      descriptionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<MealBase, MealBase, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -358,6 +537,152 @@ extension MealBaseQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'imageURI',
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'imageURI',
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURILessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'imageURI',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'imageURI',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'imageURI',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'imageURI',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterFilterCondition> imageURIIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'imageURI',
+        value: '',
       ));
     });
   }
@@ -524,6 +849,30 @@ extension MealBaseQuerySortBy on QueryBuilder<MealBase, MealBase, QSortBy> {
     });
   }
 
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByDescription() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByDescriptionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByImageURI() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByImageURIDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.desc);
+    });
+  }
+
   QueryBuilder<MealBase, MealBase, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -563,6 +912,18 @@ extension MealBaseQuerySortThenBy
     });
   }
 
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByDescription() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByDescriptionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
   QueryBuilder<MealBase, MealBase, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -572,6 +933,18 @@ extension MealBaseQuerySortThenBy
   QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByImageURI() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QAfterSortBy> thenByImageURIDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'imageURI', Sort.desc);
     });
   }
 
@@ -599,6 +972,20 @@ extension MealBaseQueryWhereDistinct
   QueryBuilder<MealBase, MealBase, QDistinct> distinctByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'category');
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QDistinct> distinctByDescription(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MealBase, MealBase, QDistinct> distinctByImageURI(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'imageURI', caseSensitive: caseSensitive);
     });
   }
 
@@ -630,6 +1017,18 @@ extension MealBaseQueryProperty
     });
   }
 
+  QueryBuilder<MealBase, String?, QQueryOperations> descriptionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<MealBase, String?, QQueryOperations> imageURIProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'imageURI');
+    });
+  }
+
   QueryBuilder<MealBase, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
@@ -646,10 +1045,14 @@ MealBase _$MealBaseFromJson(Map<String, dynamic> json) => MealBase(
       calories: json['calories'] as int,
       category: $enumDecodeNullable(_$MealCategoryEnumMap, json['category']) ??
           MealCategory.lunch,
+      description: json['description'] as String?,
+      imageURI: json['imageURI'] as String?,
     );
 
 Map<String, dynamic> _$MealBaseToJson(MealBase instance) => <String, dynamic>{
       'name': instance.name,
+      'description': instance.description,
+      'imageURI': instance.imageURI,
       'calories': instance.calories,
       'category': _$MealCategoryEnumMap[instance.category]!,
     };

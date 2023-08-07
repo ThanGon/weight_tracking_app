@@ -9,6 +9,7 @@ import '../data/meal/meal_base.dart';
 class MealRepository extends BaseRepository<MealBase> {
   MealRepository(super.isar);
 
+  /// QUERY NEEDS LOWER AND UPPER BOUNDS FOR DATE
   Future<Either<IsarError, List<MealConsumed>>> queryMealsConsumedByDate(
       DateTime dateLower, DateTime dateUpper,
       {int userId = 1}) async {

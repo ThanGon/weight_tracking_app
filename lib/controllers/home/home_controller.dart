@@ -36,7 +36,7 @@ abstract class _HomeController extends BaseController<MealRepository>
   @override
   void init() {
     _getMealsAvailable();
-    _getMealsConsumedToday();
+    _getMealsConsumedTillNow();
   }
 
   Future<void> _getMealsAvailable() async {
@@ -44,14 +44,19 @@ abstract class _HomeController extends BaseController<MealRepository>
 
     result.fold((error) {
       errorSnackbar("Something went wrong while fetching meals");
-      go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.home));
+      go(Globals.rootNavigatorKey, Uri(path: Routes.root));
     }, (meals) {
       addAllMeal(meals);
     });
   }
 
-  Future<void> _getMealsConsumedToday() async {
-    final result = await _mealRepository.queryAll();
+  Future<void> _getMealsConsumedTillNow() async {
+    final result = await _mealRepository.queryMealsConsumedByDate(
+      // TODAY AT 00:00:00
+      DateTime(DateTime.now().year,  DateTime.now().month, DateTime.now().day, 0, 0, 0),
+      // NOW
+      DateTime.now()
+    );
 
     result.fold((error) {
       errorSnackbar("Could not fetch meals consumed today");
