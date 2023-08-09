@@ -1,10 +1,10 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:isar/isar.dart';
+import 'package:weight_tracking_app/data/meal/meal_base.dart';
+import 'package:weight_tracking_app/data/meal/meal_category.dart';
 import 'package:weight_tracking_app/data/meal/meal_consumed.dart';
 import 'package:weight_tracking_app/data/user/user.dart';
 import 'package:weight_tracking_app/repositories/base/base_repository.dart';
-
-import '../data/meal/meal_base.dart';
 
 class MealRepository extends BaseRepository<MealBase> {
   MealRepository(super.isar);
@@ -20,6 +20,18 @@ class MealRepository extends BaseRepository<MealBase> {
           .filter()
           .user((u) => u.idEqualTo(userId))
           .findAll();
+
+      return right(meals);
+    } on IsarError catch (ex) {
+      return left(ex);
+    }
+  }
+
+  Future<Either<IsarError, List<MealBase>>> queryMealsByCategory(
+      MealCategory category) async {
+    try {
+      final meals =
+          await isar.mealBases.filter().categoryEqualTo(category).findAll();
 
       return right(meals);
     } on IsarError catch (ex) {

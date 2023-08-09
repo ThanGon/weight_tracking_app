@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:weight_tracking_app/controllers/consume_meal/consume_meal_controller.dart';
 import 'package:weight_tracking_app/controllers/home/home_controller.dart';
 
 import '../../controllers/root/root_controller.dart';
@@ -43,7 +44,10 @@ class DependencyInjections {
     locator.registerLazySingleton<SetupController>(
         () => SetupController(locator.get<UserRepository>()));
 
-    locator.registerLazySingleton<HomeController>(() => HomeController(
-        locator.get<MealRepository>(), locator.get<UserRepository>()));
+    locator.registerLazySingleton<HomeController>(
+        () => HomeController(locator.get<MealRepository>()));
+
+    locator.registerLazySingleton<ConsumeMealController>(
+        () => ConsumeMealController(locator.get<MealRepository>()));
   }
 }

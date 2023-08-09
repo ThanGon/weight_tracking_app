@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weight_tracking_app/core/globals.dart';
-import 'package:weight_tracking_app/pages/home/home_page.dart';
+import 'package:weight_tracking_app/data/meal/meal_category.dart';
 import 'package:weight_tracking_app/pages/root/root_page.dart';
 import 'package:weight_tracking_app/pages/setup/setup_page.dart';
-import 'package:weight_tracking_app/pages/shell_scaffold.dart';
+import 'package:weight_tracking_app/pages/shell/home/consume_meal/consume_meal_page.dart';
+import 'package:weight_tracking_app/pages/shell/home/home_page.dart';
+import 'package:weight_tracking_app/pages/shell/shell_scaffold.dart';
 
 import 'routes.dart';
+
+//TODO: SWITCH MATERIAL PAGES TO CUSTOM TRANSITION PAGES (GO ROUTER)
+// BUILD CUSTOM TRANSITIONS AS WELL
 
 final rootRouter = GoRouter(
     navigatorKey: Globals.rootNavigatorKey,
@@ -27,6 +32,16 @@ final rootRouter = GoRouter(
           routes: [
             GoRoute(
                 path: RoutesNavigation.home,
-                builder: (context, state) => const HomePage())
+                builder: (context, state) => const HomePage(),
+                routes: [
+                  GoRoute(
+                      path: Routes.consumeMeal,
+                      builder: (context, state) {
+                        final mealCategory = MealCategory.values.byName(state
+                            .pathParameters['mealCategory']!
+                            .replaceFirst(':', ''));
+                        return ConsumeMealPage(mealCategory: mealCategory);
+                      })
+                ]),
           ])
     ]);

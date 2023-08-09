@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:weight_tracking_app/controllers/root/root_controller.dart';
 import 'package:weight_tracking_app/core/globals.dart';
 
@@ -29,9 +30,15 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     controller.defaultAssetBundle = DefaultAssetBundle.of(context);
-    return const Scaffold(
-        body: Center(
-      child: CircularProgressIndicator(),
-    ));
+    return Scaffold(
+      body: const Center(
+        child: CircularProgressIndicator(),
+      ),
+      floatingActionButton: TextButton(
+          onPressed: () {
+            Globals.getIt.get<Isar>().close(deleteFromDisk: true);
+          },
+          child: const Text("CLEAR DB [DEBUG]")),
+    );
   }
 }

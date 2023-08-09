@@ -169,13 +169,13 @@ const _MealConsumedcategoryEnumValueMap = {
   'breakfast': 0,
   'lunch': 1,
   'dinner': 2,
-  'drink': 3,
+  'snack': 3,
 };
 const _MealConsumedcategoryValueEnumMap = {
   0: MealCategory.breakfast,
   1: MealCategory.lunch,
   2: MealCategory.dinner,
-  3: MealCategory.drink,
+  3: MealCategory.snack,
 };
 
 Id _mealConsumedGetId(MealConsumed object) {
@@ -1338,5 +1338,5 @@ const _$MealCategoryEnumMap = {
   MealCategory.breakfast: 'breakfast',
   MealCategory.lunch: 'lunch',
   MealCategory.dinner: 'dinner',
-  MealCategory.drink: 'drink',
+  MealCategory.snack: 'snack',
 };

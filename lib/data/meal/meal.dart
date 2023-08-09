@@ -7,10 +7,12 @@ abstract class Meal {
   Meal({
     required this.name,
     required this.calories,
-    this.description, 
+    this.description,
     this.imageURI,
     this.category = MealCategory.lunch,
   });
+
+  final Id id = Isar.autoIncrement;
 
   final String name;
 
@@ -22,6 +24,11 @@ abstract class Meal {
   final MealCategory category;
 
   MealConsumed consume() {
-    return MealConsumed(name: name, calories: calories, category: category);
+    return MealConsumed(
+        name: name,
+        calories: calories,
+        category: category,
+        description: description,
+        imageURI: imageURI);
   }
 }

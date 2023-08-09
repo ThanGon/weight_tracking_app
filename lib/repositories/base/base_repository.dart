@@ -25,6 +25,17 @@ abstract class BaseRepository<T> {
     }
   }
 
+  Future<Either<IsarError, List<T>?>> queryFilter(
+      Id id, FilterOperation filters) async {
+    try {
+      return right(await isar.collection<T>().buildQuery<T>(
+          whereClauses: [const IdWhereClause.any()],
+          filter: filters).findAll());
+    } on IsarError catch (ex) {
+      return left(ex);
+    }
+  }
+
   Future<Either<IsarError, Id>> put(T entity) async {
     try {
       late final Id returnEntityId;

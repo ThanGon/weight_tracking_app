@@ -21,6 +21,7 @@ class WeightTracker extends StatelessWidget {
     return MaterialApp.router(
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
       title: 'Weight Tracker',
+      //TODO: IMPLEMENT THEME
       theme: ThemeData(
         appBarTheme: const AppBarTheme(centerTitle: true),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
