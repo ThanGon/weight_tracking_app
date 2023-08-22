@@ -68,6 +68,17 @@ mixin _$ConsumeMealController on _ConsumeMealController, Store {
   }
 
   @override
+  void setMealSelected(Meal? meal) {
+    final _$actionInfo = _$_ConsumeMealControllerActionController.startAction(
+        name: '_ConsumeMealController.setMealSelected');
+    try {
+      return super.setMealSelected(meal);
+    } finally {
+      _$_ConsumeMealControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 mealCategoryToConsume: ${mealCategoryToConsume},

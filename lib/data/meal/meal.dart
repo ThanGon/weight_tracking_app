@@ -12,6 +12,7 @@ abstract class Meal {
     this.category = MealCategory.lunch,
   });
 
+  //BUG: ID BORKED ON MEMORY
   final Id id = Isar.autoIncrement;
 
   final String name;

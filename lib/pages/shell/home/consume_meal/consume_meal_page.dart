@@ -32,6 +32,7 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
     super.dispose();
   }
 
+  //ROADMAP: MODAL FOR THE MEAL SELECTED
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -53,19 +54,33 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                     controller.setMealCategoryToConsume(mealCat);
                   }),
             ),
-            Observer(
-              builder: (context) => GridView.builder(
-                shrinkWrap: true,
-                itemCount: controller.mealsAvailable.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20),
-                itemBuilder: (context, index) => ConsumeMealSelectButton(
-                    onTap: () {},
-                    mealToConsumeName: controller.mealsAvailable[index].name),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: Observer(
+                builder: (context) => GridView.builder(
+                  scrollDirection: Axis.horizontal,
+                  // shrinkWrap: true,
+                  itemCount: controller.mealsAvailable.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20),
+                  itemBuilder: (context, index) => Observer(
+                    builder: (context) => ConsumeMealSelectButton(
+                      onTap: () {
+                        controller
+                            .setMealSelected(controller.mealsAvailable[index]);
+                      },
+                      mealToConsumeName: controller.mealsAvailable[index].name,
+                      toggle: controller.mealsAvailable[index].name ==
+                          controller.mealSelected?.name,
+                    ),
+                  ),
+                ),
               ),
             )
+            //TODO: TOMOROW USE FADE TRANSITION TO FADE IN THE SELECTED MEAL CARD BELOW THE GRID
+            // Observer(builder: (context) => Visibility(child: FadeTransition(opacity: opacity)),)
           ],
         )
       ],

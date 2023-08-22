@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ConsumeMealSelectButton extends StatefulWidget {
+class ConsumeMealSelectButton extends StatelessWidget {
   const ConsumeMealSelectButton(
       {super.key,
       required this.onTap,
@@ -12,33 +12,13 @@ class ConsumeMealSelectButton extends StatefulWidget {
   final VoidCallback onTap;
 
   @override
-  State<ConsumeMealSelectButton> createState() =>
-      _ConsumeMealSelectButtonState();
-}
-
-class _ConsumeMealSelectButtonState extends State<ConsumeMealSelectButton> {
-  late bool _toggle;
-
-  @override
-  void initState() {
-    _toggle = widget.toggle;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        setState(() {
-          _toggle = !_toggle;
-        });
-        widget.onTap;
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: _toggle
+            color: toggle
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.tertiary,
             width: 3,
@@ -50,10 +30,7 @@ class _ConsumeMealSelectButtonState extends State<ConsumeMealSelectButton> {
         // alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.lunch_dining),
-            Text(widget.mealToConsumeName)
-          ],
+          children: [const Icon(Icons.lunch_dining), Text(mealToConsumeName)],
         ),
       ),
     );

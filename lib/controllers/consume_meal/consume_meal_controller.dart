@@ -37,6 +37,11 @@ abstract class _ConsumeMealController extends BaseController<MealRepository>
     _getMealsAvailableByCategory();
   }
 
+  @action
+  void setMealSelected(Meal? meal) {
+    mealSelected = meal;
+  }
+
   @override
   void init() {
     _getMealsAvailableByCategory();
@@ -49,6 +54,12 @@ abstract class _ConsumeMealController extends BaseController<MealRepository>
     result.fold((error) {
       errorSnackbar("Couldn't fetch meals on the chosen category");
     }, (meals) {
+      // meals.addAll(Iterable.generate(
+      //     20,
+      //     (index) => MealBase(
+      //         name: 'Meal $index',
+      //         calories: 100,
+      //         category: mealCategoryToConsume!)));
       setAllMealsAvailable(meals);
     });
   }
