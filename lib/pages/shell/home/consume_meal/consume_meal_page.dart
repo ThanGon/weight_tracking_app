@@ -78,9 +78,22 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                   ),
                 ),
               ),
-            )
-            //TODO: TOMOROW USE FADE TRANSITION TO FADE IN THE SELECTED MEAL CARD BELOW THE GRID
-            // Observer(builder: (context) => Visibility(child: FadeTransition(opacity: opacity)),)
+            ),
+            //TODO: CREATE CARD
+            Observer(
+                builder: (context) => TweenAnimationBuilder<double>(
+                    tween: controller.mealSelected != null
+                        ? Tween<double>(begin: 0, end: 1.0)
+                        : Tween<double>(begin: 1, end: 0),
+                    duration: const Duration(milliseconds: 1),
+                    builder: (context, tween, child) => AnimatedOpacity(
+                          opacity: tween,
+                          duration: const Duration(milliseconds: 300),
+                          child: Container(
+                              height: 300,
+                              decoration:
+                                  const BoxDecoration(color: Colors.red)),
+                        )))
           ],
         )
       ],

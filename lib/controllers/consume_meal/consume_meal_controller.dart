@@ -39,6 +39,10 @@ abstract class _ConsumeMealController extends BaseController<MealRepository>
 
   @action
   void setMealSelected(Meal? meal) {
+    if (mealSelected?.name == meal?.name) {
+      mealSelected = null;
+      return;
+    }
     mealSelected = meal;
   }
 
