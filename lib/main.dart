@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_tracking_app/core/globals.dart';
+import 'package:weight_tracking_app/core/theme.dart';
 import 'package:weight_tracking_app/data/injections/injections.dart';
 import 'package:weight_tracking_app/navigation/router.dart';
 
@@ -22,11 +23,7 @@ class WeightTracker extends StatelessWidget {
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
       title: 'Weight Tracker',
       //TODO: IMPLEMENT THEME
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(centerTitle: true),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        useMaterial3: true,
-      ),
+      theme: CalTrackerTheme.buildTheme(),
       routerConfig: rootRouter,
     );
   }

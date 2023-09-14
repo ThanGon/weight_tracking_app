@@ -21,6 +21,8 @@ abstract class Meal {
 
   final int calories;
 
+  //TODO: THINKING ABOUT IMPLEMENTING INGREDIENTS AS NESTED OBJECTS
+
   @enumerated
   final MealCategory category;
 

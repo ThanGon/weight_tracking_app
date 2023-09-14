@@ -1,5 +1,6 @@
 [{
     "name": "Bacon and Eggs",
     "calories": 100,
-    "category": "breakfast"
+    "category": "breakfast",
+    "imageURI": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Bacon%2C_egg%2C_and_cheese_on_bread.jpg"
 }]

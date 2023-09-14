@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weight_tracking_app/data/meal/meal_category.dart';
+import 'package:weight_tracking_app/widgets/consume_meal_card/consume_meal_card.dart';
+import 'package:weight_tracking_app/widgets/consume_meal_card/consume_meal_card_state.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_select_button.dart';
 
 import '../../../../controllers/consume_meal/consume_meal_controller.dart';
@@ -32,7 +34,7 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
     super.dispose();
   }
 
-  //ROADMAP: MODAL FOR THE MEAL SELECTED
+  //ROADMAP: CARD FOR THE MEAL SELECTED - IN PROGRESS
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -79,7 +81,9 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                 ),
               ),
             ),
-            //TODO: CREATE CARD
+
+            /// FIXME: MOVE ANIMATION TO CARD AND REFACTOR LOGIC
+            /// MAYBE THROW STATE AS NULLABLE, WHEN NULL, CARD IS NOT VISIBLE (APPLYING ANIMATION LOGIC)
             Observer(
                 builder: (context) => TweenAnimationBuilder<double>(
                     tween: controller.mealSelected != null
@@ -89,10 +93,14 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                     builder: (context, tween, child) => AnimatedOpacity(
                           opacity: tween,
                           duration: const Duration(milliseconds: 300),
-                          child: Container(
-                              height: 300,
-                              decoration:
-                                  const BoxDecoration(color: Colors.red)),
+                          child: Observer(
+                            builder: (context) => Visibility(
+                              visible: controller.mealSelected != null,
+                              child: ConsumeMealCard(
+                                  state: ConsumeMealCardState.fromMealConsumed(
+                                      controller.mealSelected!)),
+                            ),
+                          ),
                         )))
           ],
         )
