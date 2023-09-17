@@ -31,6 +31,8 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
 
   @override
   void dispose() {
+    controller.setMealCategoryToConsume(null);
+
     super.dispose();
   }
 

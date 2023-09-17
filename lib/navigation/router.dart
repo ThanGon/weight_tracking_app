@@ -37,10 +37,9 @@ final rootRouter = GoRouter(
                   GoRoute(
                       path: Routes.consumeMeal,
                       builder: (context, state) {
-                        final mealCategory = MealCategory.values.byName(state
-                            .pathParameters['mealCategory']!
-                            .replaceFirst(':', ''));
-                        return ConsumeMealPage(mealCategory: mealCategory);
+                        return ConsumeMealPage(
+                            mealCategory: MealCategory.values.byName(
+                                state.uri.queryParameters["mealCategory"]!));
                       })
                 ]),
           ])

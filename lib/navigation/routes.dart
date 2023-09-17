@@ -5,7 +5,7 @@ class Routes {
 
   static const String home = "home";
 
-  static const String consumeMeal = "consumeMeal:mealCategory";
+  static const String consumeMeal = "consumeMeal";
 }
 
 class RoutesNavigation {
@@ -15,7 +15,4 @@ class RoutesNavigation {
 
   static const String consumeMeal =
       Routes.root + Routes.home + '/' + Routes.consumeMeal;
-
-  static String consumeMealPath(String mealCategory) =>
-      consumeMeal.replaceFirst("mealCategory", mealCategory);
 }

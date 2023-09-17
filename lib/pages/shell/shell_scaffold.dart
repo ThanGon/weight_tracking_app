@@ -10,7 +10,7 @@ class ShellScaffold extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Weight Tracker"),
       ),
-      body: SafeArea(child: child),
+      body: child,
     );
   }
 }

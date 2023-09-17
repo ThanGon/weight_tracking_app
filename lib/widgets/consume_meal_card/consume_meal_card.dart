@@ -16,19 +16,13 @@ class ConsumeMealCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       // padding: EdgeInsets.symmetric(horizontal: ),
-      height: 400,
+      // height: 400,
       child: Column(children: [
-        // SizedBox(
-        //   width: MediaQuery.sizeOf(context).width,
-        //   height: 100,
-        //   child:
-        //       FittedBox(fit: BoxFit.fill, child: Image.network(state.imageURI)),
-        // ),
         Image.network(
           state.imageURI,
           fit: BoxFit.cover,
           height: 160,
-          width: MediaQuery.of(context).size.width,
+          // width: MediaQuery.of(context).size.width,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -40,8 +34,48 @@ class ConsumeMealCard extends StatelessWidget {
                   label: Text("Name"),
                 ),
               ),
+              TextFormField(
+                controller: state.caloriesController,
+                decoration: const InputDecoration(
+                  label: Text("Calories"),
+                ),
+              )
             ],
           ),
+        ),
+        // ListView.builder(
+        //   // itemCount: state.ingredients.length,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   shrinkWrap: true,
+        //   itemCount: 20,
+        //   itemBuilder: (context, index) {
+        //     return ListTile(
+        //       title: Text((index++).toString()),
+        //       subtitle: Text((index++).toString()),
+        //     );
+        //   },
+        // ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: state.ingredients.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(state.ingredients[index].name),
+              subtitle: Text(state.ingredients[index].calories.toString()),
+            );
+          },
+        ),
+        const SizedBox(height: 10),
+        // WRITE ME A ROUNDED TEXT BUTTON TO SAVE THE MEAL
+        Row(
+          children: [
+            const Spacer(),
+            TextButton(
+              onPressed: () {},
+              child: const Text("Save"),
+            ),
+          ],
         )
       ]),
     );

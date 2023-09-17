@@ -67,8 +67,10 @@ class _HomePageState extends State<HomePage> with GoNavigator {
                         onTap: () => push(
                             Globals.shellNavigatorKey,
                             Uri(
-                                path: RoutesNavigation.consumeMealPath(
-                                    MealCategory.breakfast.name))),
+                                path: RoutesNavigation.consumeMeal,
+                                queryParameters: {
+                                  "mealCategory": MealCategory.breakfast.name
+                                })),
                         icon: Icons.egg_alt,
                         mealCategory: MealCategory.breakfast.displayName),
                     MealCategoryActionButton(
@@ -79,8 +81,10 @@ class _HomePageState extends State<HomePage> with GoNavigator {
                       onTap: () => push(
                           Globals.shellNavigatorKey,
                           Uri(
-                              path: RoutesNavigation.consumeMealPath(
-                                  MealCategory.lunch.name))),
+                              path: RoutesNavigation.consumeMeal,
+                              queryParameters: {
+                                "mealCategory": MealCategory.lunch.name
+                              })),
                     ),
                     MealCategoryActionButton(
                         toggle: controller.recommendedMealCategory ==
@@ -90,8 +94,10 @@ class _HomePageState extends State<HomePage> with GoNavigator {
                         onTap: () => push(
                             Globals.shellNavigatorKey,
                             Uri(
-                                path: RoutesNavigation.consumeMealPath(
-                                    MealCategory.dinner.name)))),
+                                path: RoutesNavigation.consumeMeal,
+                                queryParameters: {
+                                  "mealCategory": MealCategory.dinner.name
+                                }))),
                     MealCategoryActionButton(
                       toggle: controller.recommendedMealCategory ==
                           MealCategory.snack,
@@ -100,8 +106,10 @@ class _HomePageState extends State<HomePage> with GoNavigator {
                       onTap: () => push(
                           Globals.shellNavigatorKey,
                           Uri(
-                              path: RoutesNavigation.consumeMealPath(
-                                  MealCategory.snack.name))),
+                              path: RoutesNavigation.consumeMeal,
+                              queryParameters: {
+                                "mealCategory": MealCategory.snack.name
+                              })),
                     )
                   ],
                 )),

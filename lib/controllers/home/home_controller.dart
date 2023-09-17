@@ -49,6 +49,10 @@ abstract class _HomeController extends BaseController<MealRepository>
   //   });
   // }
 
+  void refreshMeals() {
+    _getMealsConsumedTillNow();
+  }
+
   Future<void> _getMealsConsumedTillNow() async {
     final result = await _mealRepository.queryMealsConsumedByDate(
         // TODAY AT 00:00:00

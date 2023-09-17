@@ -43,8 +43,14 @@ const MealConsumedSchema = CollectionSchema(
       name: r'imageURI',
       type: IsarType.string,
     ),
-    r'name': PropertySchema(
+    r'ingredients': PropertySchema(
       id: 5,
+      name: r'ingredients',
+      type: IsarType.objectList,
+      target: r'Ingredient',
+    ),
+    r'name': PropertySchema(
+      id: 6,
       name: r'name',
       type: IsarType.string,
     )
@@ -78,7 +84,7 @@ const MealConsumedSchema = CollectionSchema(
       linkName: r'meals',
     )
   },
-  embeddedSchemas: {},
+  embeddedSchemas: {r'Ingredient': IngredientSchema},
   getId: _mealConsumedGetId,
   getLinks: _mealConsumedGetLinks,
   attach: _mealConsumedAttach,
@@ -103,6 +109,14 @@ int _mealConsumedEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.ingredients.length * 3;
+  {
+    final offsets = allOffsets[Ingredient]!;
+    for (var i = 0; i < object.ingredients.length; i++) {
+      final value = object.ingredients[i];
+      bytesCount += IngredientSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -118,7 +132,13 @@ void _mealConsumedSerialize(
   writer.writeDateTime(offsets[2], object.dateConsumed);
   writer.writeString(offsets[3], object.description);
   writer.writeString(offsets[4], object.imageURI);
-  writer.writeString(offsets[5], object.name);
+  writer.writeObjectList<Ingredient>(
+    offsets[5],
+    allOffsets,
+    IngredientSchema.serialize,
+    object.ingredients,
+  );
+  writer.writeString(offsets[6], object.name);
 }
 
 MealConsumed _mealConsumedDeserialize(
@@ -134,7 +154,7 @@ MealConsumed _mealConsumedDeserialize(
             MealCategory.lunch,
     description: reader.readStringOrNull(offsets[3]),
     imageURI: reader.readStringOrNull(offsets[4]),
-    name: reader.readStringOrNull(offsets[5]) ?? "Bacon and Eggs",
+    name: reader.readStringOrNull(offsets[6]) ?? "Bacon and Eggs",
   );
   return object;
 }
@@ -159,6 +179,14 @@ P _mealConsumedDeserializeProp<P>(
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
+      return (reader.readObjectList<Ingredient>(
+            offset,
+            IngredientSchema.deserialize,
+            allOffsets,
+            Ingredient(),
+          ) ??
+          []) as P;
+    case 6:
       return (reader.readStringOrNull(offset) ?? "Bacon and Eggs") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -902,6 +930,95 @@ extension MealConsumedQueryFilter
     });
   }
 
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'ingredients',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1038,7 +1155,14 @@ extension MealConsumedQueryFilter
 }
 
 extension MealConsumedQueryObject
-    on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {}
+    on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {
+  QueryBuilder<MealConsumed, MealConsumed, QAfterFilterCondition>
+      ingredientsElement(FilterQuery<Ingredient> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'ingredients');
+    });
+  }
+}
 
 extension MealConsumedQueryLinks
     on QueryBuilder<MealConsumed, MealConsumed, QFilterCondition> {
@@ -1301,6 +1425,13 @@ extension MealConsumedQueryProperty
   QueryBuilder<MealConsumed, String?, QQueryOperations> imageURIProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'imageURI');
+    });
+  }
+
+  QueryBuilder<MealConsumed, List<Ingredient>, QQueryOperations>
+      ingredientsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ingredients');
     });
   }
 

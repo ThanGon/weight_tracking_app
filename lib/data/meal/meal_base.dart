@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../ingredients/ingredient.dart';
 import 'meal.dart';
 import 'meal_category.dart';
 

@@ -22,7 +22,6 @@ class WeightTracker extends StatelessWidget {
     return MaterialApp.router(
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
       title: 'Weight Tracker',
-      //TODO: IMPLEMENT THEME
       theme: CalTrackerTheme.buildTheme(),
       routerConfig: rootRouter,
     );

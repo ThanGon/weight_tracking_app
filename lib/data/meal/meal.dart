@@ -1,15 +1,17 @@
 import 'package:isar/isar.dart';
+import 'package:weight_tracking_app/data/ingredients/ingredient.dart';
 import 'package:weight_tracking_app/data/meal/meal_category.dart';
 
 import 'meal_consumed.dart';
 
 abstract class Meal {
-  Meal({
+  const Meal({
     required this.name,
     required this.calories,
     this.description,
     this.imageURI,
     this.category = MealCategory.lunch,
+    this.ingredients = const [],
   });
 
   //BUG: ID BORKED ON MEMORY
@@ -22,6 +24,8 @@ abstract class Meal {
   final int calories;
 
   //TODO: THINKING ABOUT IMPLEMENTING INGREDIENTS AS NESTED OBJECTS
+
+  final List<Ingredient> ingredients;
 
   @enumerated
   final MealCategory category;
