@@ -39,74 +39,82 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
   //ROADMAP: CARD FOR THE MEAL SELECTED - IN PROGRESS
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //TODO: USE INTL PACKAGE TO FORMAT DATE
-            Text(
-                "New meal reported for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"),
-            Observer(
-              builder: (context) => DropdownButton<MealCategory?>(
-                  value: controller.mealCategoryToConsume,
-                  items: MealCategory.values
-                      .map((e) => DropdownMenuItem(
-                          value: e, child: Text(e.displayName)))
-                      .toList(),
-                  onChanged: (mealCat) {
-                    controller.setMealCategoryToConsume(mealCat);
-                  }),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 200),
-              child: Observer(
-                builder: (context) => GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  // shrinkWrap: true,
-                  itemCount: controller.mealsAvailable.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20),
-                  itemBuilder: (context, index) => Observer(
-                    builder: (context) => ConsumeMealSelectButton(
-                      onTap: () {
-                        controller
-                            .setMealSelected(controller.mealsAvailable[index]);
-                      },
-                      mealToConsumeName: controller.mealsAvailable[index].name,
-                      toggle: controller.mealsAvailable[index].name ==
-                          controller.mealSelected?.name,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: ListView(
+        clipBehavior: Clip.none,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //TODO: USE INTL PACKAGE TO FORMAT DATE
+              Text(
+                  "New meal reported for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"),
+              Observer(
+                builder: (context) => DropdownButton<MealCategory?>(
+                    value: controller.mealCategoryToConsume,
+                    items: MealCategory.values
+                        .map((e) => DropdownMenuItem(
+                            value: e, child: Text(e.displayName)))
+                        .toList(),
+                    onChanged: (mealCat) {
+                      controller.setMealCategoryToConsume(mealCat);
+                    }),
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: Observer(
+                  builder: (context) => GridView.builder(
+                    scrollDirection: Axis.horizontal,
+                    // shrinkWrap: true,
+                    itemCount: controller.mealsAvailable.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 20,
+                            crossAxisSpacing: 20),
+                    itemBuilder: (context, index) => Observer(
+                      builder: (context) => ConsumeMealSelectButton(
+                        onTap: () {
+                          controller.setMealSelected(
+                              controller.mealsAvailable[index]);
+                        },
+                        mealToConsumeName:
+                            controller.mealsAvailable[index].name,
+                        toggle: controller.mealsAvailable[index].name ==
+                            controller.mealSelected?.name,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
 
-            /// FIXME: MOVE ANIMATION TO CARD AND REFACTOR LOGIC
-            /// MAYBE THROW STATE AS NULLABLE, WHEN NULL, CARD IS NOT VISIBLE (APPLYING ANIMATION LOGIC)
-            Observer(
-                builder: (context) => TweenAnimationBuilder<double>(
-                    tween: controller.mealSelected != null
-                        ? Tween<double>(begin: 0, end: 1.0)
-                        : Tween<double>(begin: 1, end: 0),
-                    duration: const Duration(milliseconds: 1),
-                    builder: (context, tween, child) => AnimatedOpacity(
-                          opacity: tween,
-                          duration: const Duration(milliseconds: 300),
-                          child: Observer(
-                            builder: (context) => Visibility(
-                              visible: controller.mealSelected != null,
-                              child: ConsumeMealCard(
-                                  state: ConsumeMealCardState.fromMealConsumed(
-                                      controller.mealSelected!)),
+              /// FIXME: MOVE ANIMATION TO CARD AND REFACTOR LOGIC
+              /// MAYBE THROW STATE AS NULLABLE, WHEN NULL, CARD IS NOT VISIBLE (APPLYING ANIMATION LOGIC)
+              const SizedBox(height: 10),
+              Observer(
+                  builder: (context) => TweenAnimationBuilder<double>(
+                      tween: controller.mealSelected != null
+                          ? Tween<double>(begin: 0, end: 1.0)
+                          : Tween<double>(begin: 1, end: 0),
+                      duration: const Duration(milliseconds: 1),
+                      builder: (context, tween, child) => AnimatedOpacity(
+                            opacity: tween,
+                            duration: const Duration(milliseconds: 300),
+                            child: Observer(
+                              builder: (context) => Visibility(
+                                visible: controller.mealSelected != null,
+                                child: ConsumeMealCard(
+                                    state:
+                                        ConsumeMealCardState.fromMealConsumed(
+                                            controller.mealSelected!)),
+                              ),
                             ),
-                          ),
-                        )))
-          ],
-        )
-      ],
+                          )))
+            ],
+          )
+        ],
+      ),
     );
   }
 }

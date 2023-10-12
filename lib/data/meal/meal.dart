@@ -2,6 +2,8 @@ import 'package:isar/isar.dart';
 import 'package:weight_tracking_app/data/ingredients/ingredient.dart';
 import 'package:weight_tracking_app/data/meal/meal_category.dart';
 
+// ignore: unused_import
+import 'meal_base.dart';
 import 'meal_consumed.dart';
 
 abstract class Meal {

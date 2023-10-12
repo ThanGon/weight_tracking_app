@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weight_tracking_app/widgets/ingredients_table/ingriedients_table.dart';
 
 import 'consume_meal_card_state.dart';
 
@@ -12,21 +13,26 @@ class ConsumeMealCard extends StatelessWidget {
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).primaryColor, width: 4),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 2,
+            spreadRadius: 0.2,
+          )
+        ],
         borderRadius: BorderRadius.circular(5),
+        color: Theme.of(context).cardColor,
       ),
-      // padding: EdgeInsets.symmetric(horizontal: ),
-      // height: 400,
       child: Column(children: [
         Image.network(
           state.imageURI,
           fit: BoxFit.cover,
           height: 160,
-          // width: MediaQuery.of(context).size.width,
+          width: MediaQuery.of(context).size.width,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextFormField(
                 controller: state.mealNameController,
@@ -39,35 +45,24 @@ class ConsumeMealCard extends StatelessWidget {
                 decoration: const InputDecoration(
                   label: Text("Calories"),
                 ),
-              )
+              ),
+              IngredientsTable(ingredients: state.ingredients)
             ],
           ),
         ),
+
         // ListView.builder(
-        //   // itemCount: state.ingredients.length,
-        //   physics: const NeverScrollableScrollPhysics(),
         //   shrinkWrap: true,
-        //   itemCount: 20,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   itemCount: state.ingredients.length,
         //   itemBuilder: (context, index) {
         //     return ListTile(
-        //       title: Text((index++).toString()),
-        //       subtitle: Text((index++).toString()),
+        //       title: Text(state.ingredients[index].name),
+        //       subtitle: Text(state.ingredients[index].calories.toString()),
         //     );
         //   },
         // ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.ingredients.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(state.ingredients[index].name),
-              subtitle: Text(state.ingredients[index].calories.toString()),
-            );
-          },
-        ),
         const SizedBox(height: 10),
-        // WRITE ME A ROUNDED TEXT BUTTON TO SAVE THE MEAL
         Row(
           children: [
             const Spacer(),

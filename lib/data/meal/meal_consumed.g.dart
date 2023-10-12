@@ -154,6 +154,13 @@ MealConsumed _mealConsumedDeserialize(
             MealCategory.lunch,
     description: reader.readStringOrNull(offsets[3]),
     imageURI: reader.readStringOrNull(offsets[4]),
+    ingredients: reader.readObjectList<Ingredient>(
+          offsets[5],
+          IngredientSchema.deserialize,
+          allOffsets,
+          Ingredient(),
+        ) ??
+        const [],
     name: reader.readStringOrNull(offsets[6]) ?? "Bacon and Eggs",
   );
   return object;
@@ -185,7 +192,7 @@ P _mealConsumedDeserializeProp<P>(
             allOffsets,
             Ingredient(),
           ) ??
-          []) as P;
+          const []) as P;
     case 6:
       return (reader.readStringOrNull(offset) ?? "Bacon and Eggs") as P;
     default:
@@ -1454,6 +1461,10 @@ MealConsumed _$MealConsumedFromJson(Map<String, dynamic> json) => MealConsumed(
       imageURI: json['imageURI'] as String?,
       category: $enumDecodeNullable(_$MealCategoryEnumMap, json['category']) ??
           MealCategory.lunch,
+      ingredients: (json['ingredients'] as List<dynamic>?)
+              ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$MealConsumedToJson(MealConsumed instance) =>
@@ -1462,6 +1473,7 @@ Map<String, dynamic> _$MealConsumedToJson(MealConsumed instance) =>
       'description': instance.description,
       'imageURI': instance.imageURI,
       'calories': instance.calories,
+      'ingredients': instance.ingredients,
       'category': _$MealCategoryEnumMap[instance.category]!,
     };
 

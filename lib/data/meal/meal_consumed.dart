@@ -18,6 +18,7 @@ class MealConsumed extends Meal {
         "Bacon and eggs is a dish consisting of bacon and eggs.",
     super.imageURI,
     super.category = MealCategory.lunch,
+    super.ingredients = const [],
   }) : dateConsumed = DateTime.now();
 
   // @Index()

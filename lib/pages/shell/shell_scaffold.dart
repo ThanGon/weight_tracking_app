@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+
+import '../../core/globals.dart';
 
 class ShellScaffold extends StatelessWidget {
   final Widget child;
@@ -11,6 +14,11 @@ class ShellScaffold extends StatelessWidget {
         title: const Text("Weight Tracker"),
       ),
       body: child,
+      floatingActionButton: FloatingActionButton(
+          child: const Text("Clear DB [DEBUG]"),
+          onPressed: () {
+            Globals.getIt.get<Isar>().close(deleteFromDisk: true);
+          }),
     );
   }
 }

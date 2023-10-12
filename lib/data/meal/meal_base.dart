@@ -15,7 +15,8 @@ class MealBase extends Meal {
       required super.calories,
       required super.category,
       super.description,
-      super.imageURI});
+      super.imageURI,
+      super.ingredients = const []});
 
   // final Id id = Isar.autoIncrement;
 

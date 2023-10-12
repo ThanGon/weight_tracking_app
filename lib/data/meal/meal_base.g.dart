@@ -126,6 +126,13 @@ MealBase _mealBaseDeserialize(
             MealCategory.lunch,
     description: reader.readStringOrNull(offsets[2]),
     imageURI: reader.readStringOrNull(offsets[3]),
+    ingredients: reader.readObjectList<Ingredient>(
+          offsets[4],
+          IngredientSchema.deserialize,
+          allOffsets,
+          Ingredient(),
+        ) ??
+        const [],
     name: reader.readString(offsets[5]),
   );
   return object;
@@ -154,7 +161,7 @@ P _mealBaseDeserializeProp<P>(
             allOffsets,
             Ingredient(),
           ) ??
-          []) as P;
+          const []) as P;
     case 5:
       return (reader.readString(offset)) as P;
     default:
@@ -1177,6 +1184,10 @@ MealBase _$MealBaseFromJson(Map<String, dynamic> json) => MealBase(
           MealCategory.lunch,
       description: json['description'] as String?,
       imageURI: json['imageURI'] as String?,
+      ingredients: (json['ingredients'] as List<dynamic>?)
+              ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$MealBaseToJson(MealBase instance) => <String, dynamic>{
@@ -1184,6 +1195,7 @@ Map<String, dynamic> _$MealBaseToJson(MealBase instance) => <String, dynamic>{
       'description': instance.description,
       'imageURI': instance.imageURI,
       'calories': instance.calories,
+      'ingredients': instance.ingredients,
       'category': _$MealCategoryEnumMap[instance.category]!,
     };
 
