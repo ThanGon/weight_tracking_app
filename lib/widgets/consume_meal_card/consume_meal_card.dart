@@ -4,9 +4,11 @@ import 'package:weight_tracking_app/widgets/ingredients_table/ingriedients_table
 import 'consume_meal_card_state.dart';
 
 class ConsumeMealCard extends StatelessWidget {
-  const ConsumeMealCard({required this.state, super.key});
+  const ConsumeMealCard({required this.state, super.key, required this.onSave});
 
   final ConsumeMealCardState state;
+
+  final void Function(ConsumeMealCardState) onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -50,24 +52,12 @@ class ConsumeMealCard extends StatelessWidget {
             ],
           ),
         ),
-
-        // ListView.builder(
-        //   shrinkWrap: true,
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   itemCount: state.ingredients.length,
-        //   itemBuilder: (context, index) {
-        //     return ListTile(
-        //       title: Text(state.ingredients[index].name),
-        //       subtitle: Text(state.ingredients[index].calories.toString()),
-        //     );
-        //   },
-        // ),
         const SizedBox(height: 10),
         Row(
           children: [
             const Spacer(),
             TextButton(
-              onPressed: () {},
+              onPressed: () => onSave(state),
               child: const Text("Save"),
             ),
           ],

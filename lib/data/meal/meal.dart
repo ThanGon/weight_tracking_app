@@ -38,6 +38,7 @@ abstract class Meal {
         calories: calories,
         category: category,
         description: description,
-        imageURI: imageURI);
+        imageURI: imageURI,
+        ingredients: ingredients);
   }
 }

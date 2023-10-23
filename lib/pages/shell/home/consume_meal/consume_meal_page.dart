@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weight_tracking_app/data/meal/meal_category.dart';
+import 'package:weight_tracking_app/data/meal/meal_consumed.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_card/consume_meal_card.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_card/consume_meal_card_state.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_select_button.dart';
@@ -40,7 +41,7 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: ListView(
         clipBehavior: Clip.none,
         children: [
@@ -50,6 +51,7 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
               //TODO: USE INTL PACKAGE TO FORMAT DATE
               Text(
                   "New meal reported for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"),
+              // USE CHIPS TO SELET DIFFERENT MEAL CATEGORY
               Observer(
                 builder: (context) => DropdownButton<MealCategory?>(
                     value: controller.mealCategoryToConsume,
@@ -105,6 +107,12 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                               builder: (context) => Visibility(
                                 visible: controller.mealSelected != null,
                                 child: ConsumeMealCard(
+                                    onSave: (state) {
+                                      print(
+                                          MealConsumed.fromConsumeMealCardState(
+                                                  state)
+                                              .toJson());
+                                    },
                                     state:
                                         ConsumeMealCardState.fromMealConsumed(
                                             controller.mealSelected!)),

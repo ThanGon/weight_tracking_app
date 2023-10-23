@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:weight_tracking_app/data/ingredients/ingredient.dart';
+import 'package:weight_tracking_app/widgets/consume_meal_card/ingredient_meal_card_state.dart';
 
 class IngredientsTable extends StatelessWidget {
   const IngredientsTable({required this.ingredients, super.key});
 
-  final ObservableList<Ingredient> ingredients;
+  final ObservableList<IngredientMealCardState> ingredients;
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +19,18 @@ class IngredientsTable extends StatelessWidget {
   }
 
   static List<TableRow> ingredientsRowBuilder(
-      ObservableList<Ingredient> ingredients) {
+      ObservableList<IngredientMealCardState> ingredients) {
     final rows = <TableRow>[];
     for (var i = 0; i < ingredients.length; i++) {
       rows.add(TableRow(children: [
         TextFormField(
-          controller: TextEditingController(text: ingredients[i].name),
+          controller: ingredients[i].name,
           decoration: const InputDecoration(
             label: Text("Name"),
           ),
         ),
         TextFormField(
-          controller:
-              TextEditingController(text: ingredients[i].calories.toString()),
+          controller: ingredients[i].calories,
           decoration: const InputDecoration(
             label: Text("Calories"),
           ),
@@ -45,7 +44,9 @@ class IngredientsTable extends StatelessWidget {
           label: Text("Name"),
         ),
         onTap: () {
-          ingredients.add(const Ingredient());
+          ingredients.add(IngredientMealCardState(
+              name: TextEditingController(),
+              calories: TextEditingController()));
         },
         autofocus: false,
       ),

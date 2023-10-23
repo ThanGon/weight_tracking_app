@@ -11,14 +11,19 @@ class ShellScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Weight Tracker"),
-      ),
-      body: child,
-      floatingActionButton: FloatingActionButton(
-          child: const Text("Clear DB [DEBUG]"),
+        title: TextButton(
+          child: const Text("Weight Tracker"),
           onPressed: () {
             Globals.getIt.get<Isar>().close(deleteFromDisk: true);
-          }),
+          },
+        ),
+      ),
+      body: child,
+      // floatingActionButton: FloatingActionButton(
+      //     child: const Text("Clear DB [DEBUG]"),
+      //     onPressed: () {
+      //       Globals.getIt.get<Isar>().close(deleteFromDisk: true);
+      //     }),
     );
   }
 }
