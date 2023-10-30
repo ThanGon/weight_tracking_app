@@ -72,6 +72,7 @@ User _userDeserialize(
   final object = User(
     name: reader.readString(offsets[0]),
   );
+  object.id = id;
   return object;
 }
 
@@ -98,6 +99,7 @@ List<IsarLinkBase<dynamic>> _userGetLinks(User object) {
 }
 
 void _userAttach(IsarCollection<dynamic> col, Id id, User object) {
+  object.id = id;
   object.meals.attach(col, col.isar.collection<MealConsumed>(), r'meals', id);
 }
 
@@ -487,8 +489,9 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       name: json['name'] as String,
-    );
+    )..id = json['id'] as int;
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
+      'id': instance.id,
     };

@@ -20,6 +20,16 @@ class MealBase extends Meal {
 
   // final Id id = Isar.autoIncrement;
 
+  factory MealBase.fromMeal(Meal meal) {
+    return MealBase(
+        name: meal.name,
+        calories: meal.calories,
+        category: meal.category,
+        description: meal.description,
+        imageURI: meal.imageURI,
+        ingredients: meal.ingredients);
+  }
+
   factory MealBase.fromJson(Map<String, dynamic> json) =>
       _$MealBaseFromJson(json);
 

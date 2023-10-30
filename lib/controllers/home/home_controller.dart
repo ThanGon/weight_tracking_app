@@ -49,7 +49,7 @@ abstract class _HomeController extends BaseController<MealRepository>
   //   });
   // }
 
-  void refreshMeals() {
+  Future<void> refreshMeals() async {
     _getMealsConsumedTillNow();
   }
 

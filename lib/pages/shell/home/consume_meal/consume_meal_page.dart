@@ -108,10 +108,10 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                                 visible: controller.mealSelected != null,
                                 child: ConsumeMealCard(
                                     onSave: (state) {
-                                      print(
+                                      controller.mealSelected =
                                           MealConsumed.fromConsumeMealCardState(
-                                                  state)
-                                              .toJson());
+                                              state);
+                                      controller.consumeMeal();
                                     },
                                     state:
                                         ConsumeMealCardState.fromMealConsumed(

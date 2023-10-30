@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:weight_tracking_app/controllers/base/base_controller.dart';
 import 'package:weight_tracking_app/data/meal/meal_base.dart';
 import 'package:weight_tracking_app/repositories/meal_repository.dart';
+import 'package:weight_tracking_app/repositories/user_repository.dart';
 
 import '../../data/meal/meal.dart';
 import '../../data/meal/meal_category.dart';
@@ -13,7 +14,8 @@ class ConsumeMealController = _ConsumeMealController
 
 abstract class _ConsumeMealController extends BaseController<MealRepository>
     with Store {
-  _ConsumeMealController(super.repository);
+  final UserRepository _userRepository;
+  _ConsumeMealController(super.repository, this._userRepository);
 
   @observable
   MealCategory? mealCategoryToConsume;
@@ -65,6 +67,25 @@ abstract class _ConsumeMealController extends BaseController<MealRepository>
       //         calories: 100,
       //         category: mealCategoryToConsume!)));
       setAllMealsAvailable(meals);
+    });
+  }
+
+  Future<void> consumeMeal() async {
+    final result = await _userRepository.queryById(1);
+
+    result.fold((error) {
+      errorSnackbar("Something went wrong while fetching user");
+    }, (user) async {
+      final mealConsumed = mealSelected!.consume();
+      mealConsumed.user.value = user;
+
+      final result = await repository.saveMealConsumed(mealConsumed);
+
+      result.fold((error) {
+        errorSnackbar("Something went wrong while saving meal consumed");
+      }, (_) {
+        successSnackbar("Meal consumed successfully");
+      });
     });
   }
 }

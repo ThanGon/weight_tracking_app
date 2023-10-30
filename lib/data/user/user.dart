@@ -15,7 +15,7 @@ class User {
   final String name;
 
   @Index()
-  final Id id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   final IsarLinks<MealConsumed> meals = IsarLinks<MealConsumed>();
 
