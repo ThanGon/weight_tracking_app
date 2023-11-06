@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weight_tracking_app/widgets/ingredients_table/ingriedients_table.dart';
+import 'package:weight_tracking_app/widgets/header_title.dart';
+import 'package:weight_tracking_app/widgets/ingredients_table/ingredients_table.dart';
 
 import 'consume_meal_card_state.dart';
 
@@ -32,22 +33,35 @@ class ConsumeMealCard extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormField(
-                controller: state.mealNameController,
-                decoration: const InputDecoration(
-                  label: Text("Name"),
-                ),
+              const HeaderTitle("Meal:"),
+              Row(
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: state.mealNameController,
+                      decoration: const InputDecoration(
+                        label: Text("Name"),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Flexible(
+                    child: TextFormField(
+                      controller: state.caloriesController,
+                      decoration: const InputDecoration(
+                        label: Text("Calories"),
+                      ),
+                      readOnly: true,
+                    ),
+                  ),
+                ],
               ),
-              TextFormField(
-                controller: state.caloriesController,
-                decoration: const InputDecoration(
-                  label: Text("Calories"),
-                ),
-              ),
+              const HeaderTitle("Ingredients:"),
               IngredientsTable(ingredients: state.ingredients)
             ],
           ),

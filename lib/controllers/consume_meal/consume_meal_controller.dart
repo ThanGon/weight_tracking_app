@@ -88,4 +88,6 @@ abstract class _ConsumeMealController extends BaseController<MealRepository>
       });
     });
   }
+
+  void onChangedCaloriesCallback() {}
 }

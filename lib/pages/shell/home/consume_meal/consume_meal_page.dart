@@ -5,6 +5,7 @@ import 'package:weight_tracking_app/data/meal/meal_consumed.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_card/consume_meal_card.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_card/consume_meal_card_state.dart';
 import 'package:weight_tracking_app/widgets/consume_meal_select_button.dart';
+import 'package:weight_tracking_app/widgets/select_meal_category_chips.dart';
 
 import '../../../../controllers/consume_meal/consume_meal_controller.dart';
 import '../../../../core/globals.dart';
@@ -48,21 +49,28 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //TODO: USE INTL PACKAGE TO FORMAT DATE
-              Text(
-                  "New meal reported for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"),
               // USE CHIPS TO SELET DIFFERENT MEAL CATEGORY
+              // Observer(
+              //   builder: (context) => DropdownButton<MealCategory?>(
+              //       value: controller.mealCategoryToConsume,
+              //       items: MealCategory.values
+              //           .map((e) => DropdownMenuItem(
+              //               value: e, child: Text(e.displayName)))
+              //           .toList(),
+              //       onChanged: (mealCat) {
+              //         controller.setMealCategoryToConsume(mealCat);
+              //       }),
+              // ),
               Observer(
-                builder: (context) => DropdownButton<MealCategory?>(
-                    value: controller.mealCategoryToConsume,
-                    items: MealCategory.values
-                        .map((e) => DropdownMenuItem(
-                            value: e, child: Text(e.displayName)))
-                        .toList(),
-                    onChanged: (mealCat) {
-                      controller.setMealCategoryToConsume(mealCat);
-                    }),
-              ),
+                  builder: (context) => SelectMealCategoryChips(
+                        selectedMealCategory: controller.mealCategoryToConsume,
+                        onSelectChip: (category, selected) => {
+                          if (selected)
+                            {controller.setMealCategoryToConsume(category)}
+                          else
+                            {controller.setMealCategoryToConsume(null)}
+                        },
+                      )),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 200),
                 child: Observer(
@@ -115,7 +123,7 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                                     },
                                     state:
                                         ConsumeMealCardState.fromMealConsumed(
-                                            controller.mealSelected!)),
+                                            controller.mealSelected!, () {})),
                               ),
                             ),
                           )))

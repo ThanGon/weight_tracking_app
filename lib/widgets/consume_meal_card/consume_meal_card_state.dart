@@ -16,13 +16,15 @@ class ConsumeMealCardState {
       List<IngredientMealCardState> ingredients = const []})
       : ingredients = ObservableList.of(ingredients);
 
-  factory ConsumeMealCardState.fromMealConsumed(Meal meal) {
+  factory ConsumeMealCardState.fromMealConsumed(
+      Meal meal, VoidCallback? onChangedCalories) {
     return ConsumeMealCardState(
         mealNameController: TextEditingController(text: meal.name),
         caloriesController:
             TextEditingController(text: meal.calories.toString()),
         imageURI: meal.imageURI ?? "",
-        ingredients: List<IngredientMealCardState>.from(meal.ingredients
-            .map((e) => IngredientMealCardState.fromIngredient(e))));
+        ingredients: List<IngredientMealCardState>.from(meal.ingredients.map(
+            (e) => IngredientMealCardState.fromIngredient(e,
+                onChangedCalories: onChangedCalories))));
   }
 }
