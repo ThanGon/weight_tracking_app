@@ -44,7 +44,9 @@ class IngredientsTable extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: rowHeight),
           child: TextFormField(
             controller: ingredients[i].calories,
-            onChanged: (cal) {},
+            onChanged: (cal) {
+              ingredients[i].onChangedCalories?.call();
+            },
             decoration: const InputDecoration(
               label: Text("Calories"),
             ),

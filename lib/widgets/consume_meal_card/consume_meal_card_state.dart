@@ -7,7 +7,7 @@ class ConsumeMealCardState {
   final TextEditingController mealNameController;
   final TextEditingController caloriesController;
   final String imageURI;
-  final ObservableList<IngredientMealCardState> ingredients;
+  late final ObservableList<IngredientMealCardState> ingredients;
 
   ConsumeMealCardState(
       {required this.mealNameController,
@@ -16,15 +16,20 @@ class ConsumeMealCardState {
       List<IngredientMealCardState> ingredients = const []})
       : ingredients = ObservableList.of(ingredients);
 
-  factory ConsumeMealCardState.fromMealConsumed(
-      Meal meal, VoidCallback? onChangedCalories) {
-    return ConsumeMealCardState(
-        mealNameController: TextEditingController(text: meal.name),
-        caloriesController:
+  ConsumeMealCardState.fromMeal(Meal meal)
+      : mealNameController = TextEditingController(text: meal.name),
+        caloriesController =
             TextEditingController(text: meal.calories.toString()),
-        imageURI: meal.imageURI ?? "",
-        ingredients: List<IngredientMealCardState>.from(meal.ingredients.map(
-            (e) => IngredientMealCardState.fromIngredient(e,
-                onChangedCalories: onChangedCalories))));
+        imageURI = meal.imageURI ?? "" {
+    ingredients = ObservableList.of(meal.ingredients.map((e) =>
+        IngredientMealCardState.fromIngredient(e,
+            onChangedCalories: onChangedCalories)));
+  }
+
+  void onChangedCalories() {
+    caloriesController.text = ingredients
+        .map((e) => e.calories.text.isEmpty ? 0 : int.parse(e.calories.text))
+        .fold(0, (previousValue, element) => previousValue + element)
+        .toString();
   }
 }

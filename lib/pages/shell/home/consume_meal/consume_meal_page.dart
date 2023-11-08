@@ -121,9 +121,8 @@ class _ConsumeMealPageState extends State<ConsumeMealPage> {
                                               state);
                                       controller.consumeMeal();
                                     },
-                                    state:
-                                        ConsumeMealCardState.fromMealConsumed(
-                                            controller.mealSelected!, () {})),
+                                    state: ConsumeMealCardState.fromMeal(
+                                        controller.mealSelected!)),
                               ),
                             ),
                           )))
