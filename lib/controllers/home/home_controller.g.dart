@@ -22,6 +22,17 @@ mixin _$HomeController on _HomeController, Store {
       ActionController(name: '_HomeController', context: context);
 
   @override
+  void clearMealsConsumed() {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.clearMealsConsumed');
+    try {
+      return super.clearMealsConsumed();
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addAllMealConsumed(Iterable<Meal> meals) {
     final _$actionInfo = _$_HomeControllerActionController.startAction(
         name: '_HomeController.addAllMealConsumed');

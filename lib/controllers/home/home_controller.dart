@@ -28,26 +28,19 @@ abstract class _HomeController extends BaseController<MealRepository>
   // }
 
   @action
+  void clearMealsConsumed() {
+    mealsConsumed.clear();
+  }
+
+  @action
   void addAllMealConsumed(Iterable<Meal> meals) {
     mealsConsumed.addAll(meals);
   }
 
   @override
   void init() {
-    // _getMealsAvailable();
     _getMealsConsumedTillNow();
   }
-
-  // Future<void> _getMealsAvailable() async {
-  //   final result = await _mealRepository.queryAll();
-
-  //   result.fold((error) {
-  //     errorSnackbar("Something went wrong while fetching meals");
-  //     go(Globals.rootNavigatorKey, Uri(path: Routes.root));
-  //   }, (meals) {
-  //     addAllMeal(meals);
-  //   });
-  // }
 
   Future<void> refreshMeals() async {
     _getMealsConsumedTillNow();
@@ -64,6 +57,7 @@ abstract class _HomeController extends BaseController<MealRepository>
       errorSnackbar("Could not fetch meals consumed today");
       // go(Globals.rootNavigatorKey, Uri(path: RoutesNavigation.home));
     }, (meals) {
+      clearMealsConsumed();
       addAllMealConsumed(meals);
     });
   }
