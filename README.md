@@ -1,12 +1,10 @@
-# weight_tracking_app
+# DashCal (Calorie Tracking Mobile Application)
+![Static Badge](https://img.shields.io/badge/Latest-September-yellow)
 
-## Descriptive Section
 
-App Name: WeightTrack
+## 🎯 Objective
 
-Description:
-
-WeightTrack is a weight monitoring application designed to help users track and manage their weight loss, gain, or maintenance goals effectively and conveniently. It is developed for mobile devices (iOS and Android) and also features a web platform for access on computers.
+DashCal aims to be a simple and straight forward open source application to input and save your calories consumtpion for future reference, as it provides diferent recipes for further use.
 
 Key Features:
 
