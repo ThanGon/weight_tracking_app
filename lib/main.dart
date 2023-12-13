@@ -10,18 +10,18 @@ void main() async {
   // BLOCKING FUNCTION
   await DependencyInjections.inject();
 
-  runApp(const WeightTracker());
+  runApp(const CalTracker());
 }
 
-class WeightTracker extends StatelessWidget {
-  const WeightTracker({super.key});
+class CalTracker extends StatelessWidget {
+  const CalTracker({super.key});
 
   //ROOT MATERIAL
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
-      title: 'Weight Tracker',
+      title: 'Cal Tracker',
       theme: CalTrackerTheme.buildTheme(),
       routerConfig: rootRouter,
     );

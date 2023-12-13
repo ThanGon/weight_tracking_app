@@ -12,7 +12,7 @@ class ShellScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: TextButton(
-          child: const Text("Weight Tracker"),
+          child: const Text("Cal Tracker"),
           onPressed: () {
             Globals.getIt.get<Isar>().close(deleteFromDisk: true);
           },

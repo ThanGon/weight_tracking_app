@@ -2,8 +2,10 @@ import 'package:mobx/mobx.dart';
 import 'package:weight_tracking_app/controllers/base/base_controller.dart';
 import 'package:weight_tracking_app/data/meal/meal.dart';
 import 'package:weight_tracking_app/data/meal/meal_category.dart';
+import 'package:weight_tracking_app/data/user/user.dart';
 import 'package:weight_tracking_app/navigation/go_navigator.dart';
 import 'package:weight_tracking_app/repositories/meal_repository.dart';
+import 'package:weight_tracking_app/repositories/user_repository.dart';
 import 'package:weight_tracking_app/util/date/max_min_date.dart';
 
 part 'home_controller.g.dart';
@@ -13,19 +15,21 @@ class HomeController = _HomeController with _$HomeController;
 abstract class _HomeController extends BaseController<MealRepository>
     with Store, GoNavigator {
   final MealRepository _mealRepository;
-  _HomeController(this._mealRepository) : super(_mealRepository);
+  final UserRepository _userRepository;
 
-  // final ObservableList<Meal> mealsAvailable = ObservableList.of([]);
+  _HomeController(this._mealRepository, this._userRepository)
+      : super(_mealRepository);
 
   final ObservableList<Meal> mealsConsumed = ObservableList.of([]);
 
+  @observable
+  User? profile;
+
+  @action
+  setProfile(User profile) => profile = profile;
+
   @computed
   MealCategory? get recommendedMealCategory => mealAccordingNow();
-
-  // @action
-  // void addAllMeal(Iterable<Meal> meals) {
-  //   mealsAvailable.addAll(meals);
-  // }
 
   @action
   void clearMealsConsumed() {
@@ -44,6 +48,22 @@ abstract class _HomeController extends BaseController<MealRepository>
 
   Future<void> refreshMeals() async {
     _getMealsConsumedTillNow();
+  }
+
+  Future<User> getCurrentProfile({int userId = 1}) async {
+    final result = await _userRepository.queryById(userId);
+
+    // FIXME: THIS WAS LAZY
+    return result.fold((error) {
+      errorSnackbar("Could not get current profile");
+      throw Exception();
+    }, (profile) {
+      if (profile == null) {
+        errorSnackbar("There is no profile saved");
+        throw Exception();
+      }
+      return profile;
+    });
   }
 
   Future<void> _getMealsConsumedTillNow() async {

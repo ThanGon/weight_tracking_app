@@ -18,8 +18,35 @@ mixin _$HomeController on _HomeController, Store {
               name: '_HomeController.recommendedMealCategory'))
           .value;
 
+  late final _$profileAtom =
+      Atom(name: '_HomeController.profile', context: context);
+
+  @override
+  User? get profile {
+    _$profileAtom.reportRead();
+    return super.profile;
+  }
+
+  @override
+  set profile(User? value) {
+    _$profileAtom.reportWrite(value, super.profile, () {
+      super.profile = value;
+    });
+  }
+
   late final _$_HomeControllerActionController =
       ActionController(name: '_HomeController', context: context);
+
+  @override
+  dynamic setProfile(User profile) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.setProfile');
+    try {
+      return super.setProfile(profile);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void clearMealsConsumed() {
@@ -46,6 +73,7 @@ mixin _$HomeController on _HomeController, Store {
   @override
   String toString() {
     return '''
+profile: ${profile},
 recommendedMealCategory: ${recommendedMealCategory}
     ''';
   }

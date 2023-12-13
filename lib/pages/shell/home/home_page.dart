@@ -43,7 +43,9 @@ class _HomePageState extends State<HomePage> with GoNavigator {
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
         children: [
-          const SizedBox(height: 200, child: Placeholder()),
+          // const SizedBox(height: 200, child: Placeholder()),
+          Text("Welcome,"),
+
           const Text(
               "Would you like to report your diet today?"), //TODO: IMPLEMENT DIFFERENT TEXT FOR DIFFERENT DAYS
           // Observer(

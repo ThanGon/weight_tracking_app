@@ -44,8 +44,8 @@ class DependencyInjections {
     locator.registerLazySingleton<SetupController>(
         () => SetupController(locator.get<UserRepository>()));
 
-    locator.registerLazySingleton<HomeController>(
-        () => HomeController(locator.get<MealRepository>()));
+    locator.registerLazySingleton<HomeController>(() => HomeController(
+        locator.get<MealRepository>(), locator.get<UserRepository>()));
 
     locator.registerLazySingleton<ConsumeMealController>(() =>
         ConsumeMealController(

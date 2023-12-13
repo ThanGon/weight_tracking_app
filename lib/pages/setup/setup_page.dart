@@ -30,7 +30,7 @@ class _SetupPageState extends State<SetupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Weight Tracker")),
+      appBar: AppBar(title: const Text("Cal Tracker")),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         const Text("Welcome! Please enter your name below to start"),
         Row(
